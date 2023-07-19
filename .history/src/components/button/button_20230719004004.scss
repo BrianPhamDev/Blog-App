@@ -1,0 +1,7 @@
+.button {
+  @apply w-full bg-slate-200 rounded-md font-semibold cursor-pointer text-lg h-[54px] flex items-center justify-center;
+
+  &:disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+}

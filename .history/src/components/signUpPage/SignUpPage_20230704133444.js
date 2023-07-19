@@ -1,0 +1,13 @@
+import React from "react";
+import "./SignUpPage.scss";
+const SignUpPage = () => {
+  return (
+    <div className="container">
+      <img src="./Logo.svg" alt="Daily News" className="logo" />
+      <h2 className="heading">Sign in</h2>
+      <p>Please enter your email to sign in.</p>
+    </div>
+  );
+};
+
+export default SignUpPage;

@@ -1,0 +1,11 @@
+.header {
+  @apply flex justify-between items-center my-4;
+}
+
+.header-logo {
+  max-width: 240px;
+}
+
+.header-main {
+  @apply flex list-none;
+}

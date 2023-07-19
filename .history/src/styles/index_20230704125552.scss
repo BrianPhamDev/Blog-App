@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "reset";
+
+.primary-color {
+  background: linear-gradient(
+    45deg,
+    var(--primary) 0%,
+    var(--primary-grad2) 80%,
+    var(--primary-grad3) 100%
+  );
+}

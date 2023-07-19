@@ -1,0 +1,12 @@
+.header {
+  @apply flex justify-between my-4;
+}
+
+.header-logo {
+  @apply w-60;
+  max-width: 240px;
+}
+
+.header-main {
+  @apply flex;
+}

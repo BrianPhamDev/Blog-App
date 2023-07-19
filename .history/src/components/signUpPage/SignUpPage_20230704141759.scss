@@ -1,0 +1,27 @@
+.logo {
+  @apply pt-[20px];
+  margin: 0 auto;
+}
+
+.signup-heading {
+  @apply text-center mt-12;
+}
+
+.signup-form {
+  @apply mt-6;
+  max-width: 400px;
+}
+
+.signup-fullname {
+  @apply flex flex-col gap-2;
+}
+
+.label {
+  @apply cursor-pointer w-full;
+}
+
+.input {
+  @apply p-3 rounded-md w-full;
+  border-color: red;
+  background-color: var(--background-inactive);
+}

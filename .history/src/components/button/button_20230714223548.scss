@@ -1,0 +1,14 @@
+.button {
+  @apply w-full bg-black text-white rounded-md font-bold cursor-pointer text-lg h-[54px] flex items-center;
+
+  background-image: linear-gradient(
+    45deg,
+    var(--primary) 0%,
+    var(--primary-grad2) 80%,
+    var(--primary-grad3) 100%
+  );
+
+  &:disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+}

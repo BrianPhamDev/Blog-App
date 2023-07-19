@@ -1,0 +1,45 @@
+//@import "../../styles/index.scss";
+
+.header {
+  @apply flex justify-between items-center my-4;
+}
+
+.header-logo {
+  max-width: 240px;
+}
+
+.header-main {
+  @apply flex gap-6;
+}
+
+.menu {
+  @apply list-none flex gap-6;
+  font-size: 16px;
+  line-height: 2.75rem;
+  font-weight: 500;
+}
+
+.search {
+  @apply flex border items-center px-2 py-3 max-w-[320px] w-full gap-2 rounded-2xl cursor-pointer;
+
+  &-icon {
+    color: #ff0c0c;
+  }
+
+  &-input {
+    @apply flex-1 pr-2;
+  }
+}
+
+.menu-button {
+  @apply w-[120px] bg-black text-white rounded-md font-semibold cursor-pointer text-lg h-[50px] flex items-center justify-center;
+
+  &:hover {
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+  }
+}

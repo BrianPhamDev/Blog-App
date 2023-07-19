@@ -1,0 +1,22 @@
+@import "../../styles/index.scss";
+
+.header {
+  @apply flex justify-between items-center my-4;
+}
+
+.header-logo {
+  max-width: 240px;
+}
+
+.header-main {
+  @apply flex;
+}
+
+.menu {
+  @extend .bodycopy;
+  @apply list-none flex gap-6;
+}
+
+.search {
+  @apply flex border border-inactive rounded-full opacity-80;
+}

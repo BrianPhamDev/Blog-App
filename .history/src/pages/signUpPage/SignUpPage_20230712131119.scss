@@ -1,0 +1,13 @@
+.logo {
+  @apply pt-[40px];
+  margin: 0 auto;
+}
+
+.signup-heading {
+  @apply text-center mt-12;
+}
+
+.signup-form {
+  @apply mt-8 mx-auto;
+  max-width: 400px;
+}

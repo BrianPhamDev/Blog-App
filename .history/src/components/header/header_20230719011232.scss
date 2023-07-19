@@ -1,0 +1,12 @@
+@import "../../styles/index.scss";
+
+.header-main {
+  @apply flex;
+}
+
+// .button {
+//   @extend .bodycopy;
+//   @apply cursor-pointer;
+//   flex: 1;
+//   max-width: 200px;
+// }

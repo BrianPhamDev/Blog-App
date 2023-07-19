@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "reset";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap");
+
+@layer base {
+  :root {
+    --primary: #ff0055;
+    --primary-active: #e5004c;
+    --primary-grad2: #ff4133;
+    --grad2-active: #e53a2e;
+    --primary-grad3: #ff7633;
+    --grad3-active: #e56a2e;
+    --primary-d: #ff1a66;
+    --primary-grad2-d: #ff5448;
+    --primary-grad3-d: #ff8448;
+    --danger: #f00;
+    --danger-active: #e50000;
+  }
+
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120 120px;
+  }
+
+  .heading {
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+    background-clip: text;
+    color: transparent;
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 47px;
+  }
+}
