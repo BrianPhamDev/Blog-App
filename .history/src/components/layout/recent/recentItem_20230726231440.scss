@@ -1,0 +1,25 @@
+.recent {
+  &-wrapper {
+    @apply mb-8;
+  }
+
+  &-thumb {
+    @apply rounded-md;
+  }
+
+  &-meta {
+    @apply flex gap-3 items-center mt-2 mb-4;
+  }
+
+  &-category {
+    @apply px-[10px] py-1 rounded-full text-white;
+
+    display: inline-block;
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+  }
+}

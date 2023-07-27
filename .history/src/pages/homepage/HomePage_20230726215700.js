@@ -1,19 +1,21 @@
 import React from "react";
 import "./homePage.scss";
+// import { signOut } from "firebase/auth";
+// import { auth } from "../../firebase/firebase-config";
 import HomeBanner from "../../module/HomePage/HomeBanner";
-import Layout from "../../components/layout/Layout";
-import HomeTrending from "../../module/HomePage/HomeTrending/HomeTrending";
+import Layout from "../../layout/Layout";
 import Heading from "../../components/layout/heading/Heading";
-import RecentNews from "../../module/RecentNews/RecentNews";
+import HomeTrending from "../../module/HomePage/HomeTrending/HomeTrending";
 const HomePage = () => {
+  // const handleSignOut = () => {
+  //   signOut(auth);
+  // };
   return (
     <div className="container">
       <Layout>
         <HomeBanner></HomeBanner>
-        <Heading>Trending Now</Heading>
+        <Heading className="mb-10 mt-14">Trending Now</Heading>
         <HomeTrending></HomeTrending>
-        <Heading>Recent News</Heading>
-        <RecentNews></RecentNews>
       </Layout>
     </div>
   );

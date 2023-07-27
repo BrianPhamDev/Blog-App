@@ -1,0 +1,8 @@
+.heading-category {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: "";
+  }
+}

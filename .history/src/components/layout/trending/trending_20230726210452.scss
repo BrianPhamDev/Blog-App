@@ -1,0 +1,23 @@
+.trend {
+  &-wrapper {
+    @apply grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  &-thumb {
+    @apply rounded-lg overflow-hidden;
+    grid-column-end: span 2;
+    order: 2;
+  }
+
+  &-image {
+    @apply w-full h-full;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.trend-wrapper:nth-child(2n) > .trend-thumb > .trend-image {
+  order: 2;
+}
