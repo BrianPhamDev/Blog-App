@@ -1,0 +1,93 @@
+.banner {
+  @apply w-full;
+
+  &-hero {
+    @apply w-full cursor-pointer;
+    display: grid;
+    grid-template-columns: [thumb-start content-start] 1fr [thumb-end content-end];
+    grid-template-rows: [thumb-start] 1fr [content-start] auto [thumb-end content-end];
+  }
+
+  &-thumb {
+    @apply h-[520px] relative rounded-lg;
+
+    z-index: -1;
+    grid-area: thumb;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &::before {
+      @apply w-full h-full rounded-lg;
+      content: "";
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(
+        190deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 25%,
+        rgba(0, 0, 0, 0.45) 60%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+
+  &-content {
+    @apply mb-5;
+    grid-area: content;
+    justify-self: center;
+    max-width: 576px;
+    display: block;
+  }
+
+  &-title {
+    @apply text-white mb-3;
+    max-width: none;
+    overflow: hidden;
+  }
+
+  &-heading {
+    // display: inline-block;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  &-footer {
+    @apply w-full flex items-center gap-3;
+  }
+
+  &-category {
+    @apply px-2 py-1 rounded-full text-white;
+
+    display: inline-block;
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+  }
+
+  &-time {
+    @apply text-[var(--text-meta)];
+  }
+}
+
+.thumb {
+  @apply w-full h-full object-cover rounded-lg;
+}

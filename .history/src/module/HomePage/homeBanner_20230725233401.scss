@@ -1,0 +1,6 @@
+.banner-hero {
+  @apply w-full;
+  display: grid;
+  grid-template-columns: [thumb-start content-start] 1ft [thumb-end content-end];
+  grid-template-rows: [thumb-start] 1fr [content-start] auto [thumb-end content-end];
+}
