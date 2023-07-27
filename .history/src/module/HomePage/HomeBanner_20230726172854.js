@@ -20,7 +20,7 @@ const HomeBanner = () => {
             </a>
           </h2>
           <div className="banner-footer">
-            <div className="banner-category meta">Sustainable</div>
+            <div className="banner-category meta">Design</div>
             <div className="banner-dot">
               <Dot></Dot>
             </div>

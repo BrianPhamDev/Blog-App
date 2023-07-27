@@ -16,11 +16,11 @@ const HomeBanner = () => {
         <div className="banner-content">
           <h2 className="banner-title">
             <a href="*" className="banner-heading heading-2">
-              Canned Refills Are Here and I Want Them To Go Viral
+              Snoop Dogg Releases Ice Cream Brand Based On His Bored Ape
             </a>
           </h2>
           <div className="banner-footer">
-            <div className="banner-category meta">Sustainable</div>
+            <div className="banner-category meta">Gaming</div>
             <div className="banner-dot">
               <Dot></Dot>
             </div>

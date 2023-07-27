@@ -9,18 +9,18 @@ const HomeBanner = () => {
         <div className="banner-thumb">
           <img
             className="thumb"
-            src="https://ucarecdn.com/bf8c9c92-90cd-476c-a83a-f16f990c74f5/-/crop/1366x769/0,674/-/preview/-/quality/lighter/-/format/auto/-/scale_crop/1920x1080/center/"
+            src="https://ucarecdn.com/5afb40ee-5e87-4564-bd81-eda7e194ed39/-/crop/1708x962/117,13/-/preview/-/quality/lighter/-/format/auto/-/scale_crop/1920x1080/center/"
             alt="thumbnail"
           />
         </div>
         <div className="banner-content">
           <h2 className="banner-title">
             <a href="*" className="banner-heading heading-2">
-              Canned Refills Are Here and I Want Them To Go Viral
+              Snoop Dogg Releases Ice Cream Brand Based On His Bored Ape
             </a>
           </h2>
           <div className="banner-footer">
-            <div className="banner-category meta">Sustainable</div>
+            <div className="banner-category meta">Gaming</div>
             <div className="banner-dot">
               <Dot></Dot>
             </div>
