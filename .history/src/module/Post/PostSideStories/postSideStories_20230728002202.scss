@@ -1,0 +1,10 @@
+.post-side-stories {
+  .post-side-stories-item {
+    border-bottom: 1px solid var(--border-inactive);
+
+    // Use :not() to exclude the last child from getting the bottom border
+    &:not(:last-child) {
+      border-bottom: 1px solid black;
+    }
+  }
+}

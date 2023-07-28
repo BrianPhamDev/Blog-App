@@ -1,0 +1,14 @@
+.post {
+  &-wrapper {
+    // @apply grid;
+    // grid-template-columns: repeat(6, 1fr);
+    @apply flex;
+  }
+
+  &-grid {
+    grid-column-end: span 4;
+  }
+  &-content {
+    grid-column-end: span 4;
+  }
+}

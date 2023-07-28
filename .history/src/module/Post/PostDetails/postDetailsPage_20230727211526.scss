@@ -1,0 +1,7 @@
+.post {
+  &-wrapper {
+    @apply flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+}
