@@ -26,19 +26,14 @@
 
 @media screen and (max-width: 940px) {
   .post {
-    &-grid {
+    &-post-grid {
       grid-template-rows: repeat(2, auto);
     }
-    &-heading {
-      grid-column-end: span 6;
-    }
     &-content {
-      grid-column-end: span 6;
-      grid-row-start: 1;
     }
     &-side-content {
-      grid-column-start: 1;
-      margin-bottom: 96px;
+      // grid-column-end: span 6;
+      // grid-row-start: 2;
     }
   }
 }
