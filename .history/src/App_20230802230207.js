@@ -8,7 +8,6 @@ import PostDetailsPage from "./module/Post/PostDetails/PostDetailsPage";
 import DashboardPage from "./pages/dashboardPage.js/DashboardPage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
 import PostMange from "./module/Post/postManage/PostMange";
-import PostAddNew from "./module/Post/postAddNew/PostAddNew";
 
 function App() {
   return (
@@ -23,12 +22,12 @@ function App() {
           <Route path="/:slug" element={<PostDetailsPage />}></Route>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<DashboardPage />}></Route>
-            <Route path="/manage/post" element={<PostMange />}></Route>
-            <Route
-              path="/manage/add-post"
-              element={<PostAddNew></PostAddNew>}
-            ></Route>
           </Route>
+          <Route path="/manage/post" element={<PostMange />}></Route>
+          <Route
+            path="/manage/add-post"
+            element={<PostAddNew></PostAddNew>}
+          ></Route>
         </Routes>
       </AuthProvider>
     </div>
