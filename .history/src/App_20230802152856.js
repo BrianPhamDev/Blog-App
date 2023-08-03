@@ -7,7 +7,6 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 import PostDetailsPage from "./module/Post/PostDetails/PostDetailsPage";
 import DashboardPage from "./pages/dashboardPage.js/DashboardPage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
-import PostMange from "./module/Post/postManage/PostMange";
 
 function App() {
   return (
@@ -20,11 +19,10 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />}></Route>
           <Route path="/:slug" element={<PostDetailsPage />}></Route>
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<DashboardPage />}></Route>
-          </Route>
-          <Route path="/manage/post" element={<PostMange />}></Route>
         </Routes>
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />}></Route>
+        </Route>
       </AuthProvider>
     </div>
   );

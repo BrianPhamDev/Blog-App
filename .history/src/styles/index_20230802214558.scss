@@ -25,6 +25,12 @@
     --text-meta: #91a8b0;
     --gray-200: rgba(237, 243, 245, 0.647);
     --gray-300: rgb(237, 243, 245);
+    --background-gradient: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
   }
 
   html {
@@ -61,6 +67,7 @@
   }
 
   .heading-1 {
+    color: #000000;
     font-size: 38px;
     font-weight: 900;
     line-height: 47px;

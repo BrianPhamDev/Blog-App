@@ -7,7 +7,6 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 import PostDetailsPage from "./module/Post/PostDetails/PostDetailsPage";
 import DashboardPage from "./pages/dashboardPage.js/DashboardPage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
-import PostMange from "./module/Post/postManage/PostMange";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<DashboardPage />}></Route>
           </Route>
-          <Route path="/manage/post" element={<PostMange />}></Route>
         </Routes>
       </AuthProvider>
     </div>

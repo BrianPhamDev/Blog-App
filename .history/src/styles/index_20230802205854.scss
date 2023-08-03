@@ -23,7 +23,6 @@
     --background-inactive: #e7ecf3d6;
     --inactive: rgb(54, 54, 54);
     --text-meta: #91a8b0;
-    --gray-200: rgba(237, 243, 245, 0.647);
     --gray-300: rgb(237, 243, 245);
   }
 
@@ -61,6 +60,7 @@
   }
 
   .heading-1 {
+    color: #000000;
     font-size: 38px;
     font-weight: 900;
     line-height: 47px;
@@ -118,7 +118,7 @@
   .hover-active {
     &:hover,
     &:active {
-      @apply background-gradient smooth-transition;
+      @apply background-gradient;
     }
   }
 }

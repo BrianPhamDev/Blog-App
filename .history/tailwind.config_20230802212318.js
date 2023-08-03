@@ -12,10 +12,6 @@ module.exports = {
       gridTemplateColumns: {
         "dashboard-main": "300px minmax(0, 1fr)",
       },
-      backgroundImage: {
-        gradient:
-          "linear-gradient(45deg, var(--primary) 0%, var(--primary-grad2) 80%, var(--primary-grad3) 100%)",
-      },
     },
   },
   plugins: [],

@@ -7,7 +7,7 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 import PostDetailsPage from "./module/Post/PostDetails/PostDetailsPage";
 import DashboardPage from "./pages/dashboardPage.js/DashboardPage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
-import PostMange from "./module/Post/postManage/PostMange";
+import PostMange from "./module/Post/postManage/postMange";
 
 function App() {
   return (

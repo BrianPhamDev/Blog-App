@@ -1,0 +1,35 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 10px;
+
+  &-list {
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+  }
+
+  &-prev,
+  &-next,
+  &-item {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    width: fit-content;
+
+    &:hover {
+      color: white;
+      background-color: var(--background-gradient);
+    }
+
+    &-item.is-current {
+      color: white;
+      background-color: var(--background-gradient);
+    }
+  }
+}
