@@ -139,7 +139,7 @@ const PostAddNew = () => {
           </Field>
           <Field>
             <Label>Status</Label>
-            <div className="flex items-start gap-x-5 h-full">
+            <div className="flex gap-x-5 h-full">
               <Radio
                 name="status"
                 control={control}
