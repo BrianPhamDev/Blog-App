@@ -11,8 +11,6 @@ export default function useFirebaseImage(setValue, getValues) {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
 
-  if (!setValue && !getValues) return;
-
   const handleSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;

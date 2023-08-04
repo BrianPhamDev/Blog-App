@@ -1,23 +1,18 @@
 import { useState } from "react";
-import {
-  getStorage,
-  uploadBytesResumable,
-  ref,
-  deleteObject,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, uploadBytesResumable } from "firebase/storage";
 
-export default function useFirebaseImage(setValue, getValues) {
+export default function useFirebaseImage() {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
+  const watchStatus = watch("status");
+  // const watchCategory = watch("category");
 
-  if (!setValue && !getValues) return;
-
-  const handleSelectImage = (e) => {
+  const onSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setValue("image_name", file.name);
     handleUploadImage(file);
+    // handleDeleteImage(file.name);
     console.log(file.name);
   };
 
@@ -75,5 +70,5 @@ export default function useFirebaseImage(setValue, getValues) {
         console.log("Uh-oh, an error occurred!");
       });
   };
-  return { handleSelectImage, image, progress, handleDeleteImage };
+  return {};
 }

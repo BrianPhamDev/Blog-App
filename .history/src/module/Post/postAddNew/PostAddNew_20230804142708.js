@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../../components/button";
 import { Field } from "../../../components/field";
 import { Input } from "../../../components/input";
@@ -8,6 +8,13 @@ import { Radio } from "../../../components/checkbox";
 import { Dropdown } from "../../../components/dropdown";
 import slugify from "slugify";
 import { postStatus } from "../../../utils/constants";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import ImageUpload from "../../../components/image/ImageUpload";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 
@@ -25,14 +32,12 @@ const PostAddNew = () => {
   const watchStatus = watch("status");
   // const watchCategory = watch("category");
 
-  const { handleSelectImage, image, progress, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues);
-
   const addPostHandler = async (values) => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title, { lower: true });
     cloneValues.status = Number(cloneValues.status);
-    // // console.log(cloneValues);
+    console.log(cloneValues);
+    handleUploadImage(cloneValues.image);
   };
   return (
     <div>
@@ -62,7 +67,7 @@ const PostAddNew = () => {
             <Label>Image</Label>
             <ImageUpload
               image={image}
-              onChange={handleSelectImage}
+              onChange={onSelectImage}
               progress={progress}
               handleDeleteImage={handleDeleteImage}
             ></ImageUpload>
