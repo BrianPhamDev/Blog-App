@@ -18,8 +18,9 @@ import {
 import ImageUpload from "../../../components/image/ImageUpload";
 
 const PostAddNew = () => {
-  const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
+  const [image, setImage] = useState("");
+
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -32,16 +33,13 @@ const PostAddNew = () => {
   });
   const watchStatus = watch("status");
   // const watchCategory = watch("category");
-
   const onSelectImage = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     if (!file) return;
     setValue("image_name", file.name);
     handleUploadImage(file);
-    // handleDeleteImage(file.name);
-    console.log(file.name);
   };
-
   const handleUploadImage = (file) => {
     const storage = getStorage();
     const storageRef = ref(storage, "images/" + file.name);
@@ -51,10 +49,11 @@ const PostAddNew = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const imageProgress =
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progressPercent =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        // console.log("Upload is " + progress + "% done");
-        setProgress(imageProgress);
+        console.log("Upload is " + progress + "% done");
+        setProgress(progressPercent);
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -79,12 +78,12 @@ const PostAddNew = () => {
     );
   };
 
-  const handleDeleteImage = () => {
+  const handleDeleteImage = (file) => {
     const storage = getStorage();
 
     // Create a reference to the file to delete
     const imageRef = ref(storage, "images/" + getValues("image_name"));
-
+    console.log(imageRef);
     // Delete the file
     deleteObject(imageRef)
       .then(() => {
@@ -93,7 +92,7 @@ const PostAddNew = () => {
         setProgress(0);
       })
       .catch((error) => {
-        console.log("Uh-oh, an error occurred!");
+        console.log("Can not delete image");
       });
   };
 
@@ -104,6 +103,7 @@ const PostAddNew = () => {
     console.log(cloneValues);
     handleUploadImage(cloneValues.image);
   };
+
   return (
     <div>
       <h1 className="heading-2 text-gradient mb-8">Add new post</h1>
@@ -131,15 +131,16 @@ const PostAddNew = () => {
           <Field>
             <Label>Image</Label>
             <ImageUpload
-              image={image}
               onChange={onSelectImage}
               progress={progress}
+              image={image}
               handleDeleteImage={handleDeleteImage}
             ></ImageUpload>
+            {/* <input type="file" name="image" onChange={onSelectImage}></input> */}
           </Field>
           <Field>
             <Label>Status</Label>
-            <div className="flex items-center gap-x-5 h-full">
+            <div className="flex items-start gap-x-5 h-full">
               <Radio
                 name="status"
                 control={control}

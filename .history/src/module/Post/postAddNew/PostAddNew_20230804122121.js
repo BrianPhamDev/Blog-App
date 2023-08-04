@@ -13,14 +13,13 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject,
 } from "firebase/storage";
 import ImageUpload from "../../../components/image/ImageUpload";
 
 const PostAddNew = () => {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
-  const { control, watch, setValue, handleSubmit, getValues } = useForm({
+  const { control, watch, setValue, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
@@ -31,15 +30,13 @@ const PostAddNew = () => {
     },
   });
   const watchStatus = watch("status");
-  // const watchCategory = watch("category");
+  const watchCategory = watch("category");
 
   const onSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setValue("image_name", file.name);
+    setValue("image", file);
     handleUploadImage(file);
-    // handleDeleteImage(file.name);
-    console.log(file.name);
   };
 
   const handleUploadImage = (file) => {
@@ -51,10 +48,10 @@ const PostAddNew = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const imageProgress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         // console.log("Upload is " + progress + "% done");
-        setProgress(imageProgress);
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -77,24 +74,6 @@ const PostAddNew = () => {
         });
       }
     );
-  };
-
-  const handleDeleteImage = () => {
-    const storage = getStorage();
-
-    // Create a reference to the file to delete
-    const imageRef = ref(storage, "images/" + getValues("image_name"));
-
-    // Delete the file
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("File deleted successfully");
-        setImage("");
-        setProgress(0);
-      })
-      .catch((error) => {
-        console.log("Uh-oh, an error occurred!");
-      });
   };
 
   const addPostHandler = async (values) => {
@@ -130,12 +109,7 @@ const PostAddNew = () => {
         <div className="grid grid-cols-2 gap-x-10 mb-10">
           <Field>
             <Label>Image</Label>
-            <ImageUpload
-              image={image}
-              onChange={onSelectImage}
-              progress={progress}
-              handleDeleteImage={handleDeleteImage}
-            ></ImageUpload>
+            <ImageUpload image={image} onChange={onSelectImage}></ImageUpload>
           </Field>
           <Field>
             <Label>Status</Label>

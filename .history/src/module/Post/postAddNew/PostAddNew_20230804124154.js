@@ -20,7 +20,7 @@ import ImageUpload from "../../../components/image/ImageUpload";
 const PostAddNew = () => {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
-  const { control, watch, setValue, handleSubmit, getValues } = useForm({
+  const { control, watch, setValue, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
@@ -36,9 +36,9 @@ const PostAddNew = () => {
   const onSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setValue("image_name", file.name);
+    setValue("image", file);
     handleUploadImage(file);
-    // handleDeleteImage(file.name);
+    handleDeleteImage(file);
     console.log(file.name);
   };
 
@@ -79,18 +79,17 @@ const PostAddNew = () => {
     );
   };
 
-  const handleDeleteImage = () => {
+  const handleDeleteImage = (file) => {
     const storage = getStorage();
 
     // Create a reference to the file to delete
-    const imageRef = ref(storage, "images/" + getValues("image_name"));
+    const imageRef = ref(storage, "images/" + file.name);
+    console.log(typeof file.name);
 
     // Delete the file
     deleteObject(imageRef)
       .then(() => {
         console.log("File deleted successfully");
-        setImage("");
-        setProgress(0);
       })
       .catch((error) => {
         console.log("Uh-oh, an error occurred!");

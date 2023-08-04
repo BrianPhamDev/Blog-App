@@ -6,8 +6,7 @@ module.exports = {
       colors: {
         borderInactive: "var(--border-inactive)",
         inactive: "var(--inactive)",
-        backgroundInactive: "var(--background-inactive)",
-        primary: "var(--primary)",
+        backgroundInactive: "var(--background-inactive)", textPrimary: 
       },
       fontFamily: {},
       gridTemplateColumns: {
