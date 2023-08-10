@@ -7,6 +7,7 @@ import NotFoundPage from "../../pages/notFoundPage/NotFoundPage";
 
 const DashboardLayout = ({ children }) => {
   const { userInfo } = useAuth();
+  console.log(userInfo);
   if (!userInfo) return <NotFoundPage></NotFoundPage>;
 
   return (

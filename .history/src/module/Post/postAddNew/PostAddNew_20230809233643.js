@@ -52,7 +52,7 @@ const PostAddNew = () => {
         });
       });
       setCategories(result);
-      // console.log(result);
+      console.log(result);
     };
     getData();
   }, []);

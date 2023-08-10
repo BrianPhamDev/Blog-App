@@ -4,9 +4,9 @@ import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../contexts/auth-context";
 import NotFoundPage from "../../pages/notFoundPage/NotFoundPage";
-
 const DashboardLayout = ({ children }) => {
   const { userInfo } = useAuth();
+  console.log(userInfo);
   if (!userInfo) return <NotFoundPage></NotFoundPage>;
 
   return (

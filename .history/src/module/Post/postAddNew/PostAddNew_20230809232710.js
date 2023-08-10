@@ -52,7 +52,7 @@ const PostAddNew = () => {
         });
       });
       setCategories(result);
-      // console.log(result);
+      console.log(result);
     };
     getData();
   }, []);
@@ -69,7 +69,7 @@ const PostAddNew = () => {
     await addDoc(colRef, {
       ...cloneValues,
       image,
-      userId: userInfo.uid,
+      userId: userInfo.id,
     });
     toast.success("Create new post successfully");
     console.log(cloneValues);

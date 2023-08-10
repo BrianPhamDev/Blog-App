@@ -11,10 +11,9 @@ import { postStatus } from "../../../utils/constants";
 import ImageUpload from "../../../components/image/ImageUpload";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import Toggle from "../../../components/toggle/Toggle";
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
-import { useAuth } from "../../../contexts/auth-context";
-import { toast } from "react-toastify";
+import { doc } from "firebase/firestore";
 
 const PostAddNew = () => {
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
@@ -28,7 +27,6 @@ const PostAddNew = () => {
       featured: "",
     },
   });
-  const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const { handleSelectImage, image, progress, handleDeleteImage } =
@@ -52,7 +50,7 @@ const PostAddNew = () => {
         });
       });
       setCategories(result);
-      // console.log(result);
+      console.log(result);
     };
     getData();
   }, []);
@@ -65,13 +63,7 @@ const PostAddNew = () => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title, { lower: true });
     cloneValues.status = Number(cloneValues.status);
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...cloneValues,
-      image,
-      userId: userInfo.uid,
-    });
-    toast.success("Create new post successfully");
+    const colRef = doc(db, "posts");
     console.log(cloneValues);
   };
   return (

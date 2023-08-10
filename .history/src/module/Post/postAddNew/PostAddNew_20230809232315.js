@@ -14,7 +14,6 @@ import Toggle from "../../../components/toggle/Toggle";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
 import { useAuth } from "../../../contexts/auth-context";
-import { toast } from "react-toastify";
 
 const PostAddNew = () => {
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
@@ -28,7 +27,7 @@ const PostAddNew = () => {
       featured: "",
     },
   });
-  const { userInfo } = useAuth();
+  const {} = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const { handleSelectImage, image, progress, handleDeleteImage } =
@@ -52,7 +51,7 @@ const PostAddNew = () => {
         });
       });
       setCategories(result);
-      // console.log(result);
+      console.log(result);
     };
     getData();
   }, []);
@@ -68,10 +67,8 @@ const PostAddNew = () => {
     const colRef = collection(db, "posts");
     await addDoc(colRef, {
       ...cloneValues,
-      image,
-      userId: userInfo.uid,
+      image, userId:
     });
-    toast.success("Create new post successfully");
     console.log(cloneValues);
   };
   return (
