@@ -1,0 +1,54 @@
+.trend {
+  &-wrapper {
+    @apply grid mb-[96px];
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:nth-child(2n) > .trend-thumb {
+      order: 2;
+    }
+  }
+
+  &-thumb {
+    @apply rounded-lg overflow-hidden  cursor-pointer;
+    grid-column-end: span 2;
+  }
+
+  &-image {
+    @apply w-full max-h-[525px];
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &-content {
+    @apply flex flex-col gap-[12px];
+  }
+
+  &-title {
+    @apply cursor-pointer;
+  }
+
+  &-meta {
+    @apply flex items-center gap-3 mb-4 cursor-pointer;
+  }
+
+  &-category {
+    @apply px-[10px] py-1 rounded-full text-white;
+
+    display: inline-block;
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+  }
+
+  &-date {
+    color: var(--text-meta);
+  }
+}
