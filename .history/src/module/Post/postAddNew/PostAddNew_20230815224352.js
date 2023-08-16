@@ -37,7 +37,7 @@ const PostAddNew = () => {
       createdAt: "",
     },
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -54,10 +54,6 @@ const PostAddNew = () => {
     setValue("categoryId", item.id); //for form submit
     setSelectedCategory(item); //for Dropdown.Select
   };
-
-  useEffect(() => {
-    document.title = "Add new post";
-  });
 
   useEffect(() => {
     const getData = async () => {
@@ -112,9 +108,7 @@ const PostAddNew = () => {
       setImage("");
       setProgress(0);
     } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
   return (

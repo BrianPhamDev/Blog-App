@@ -43,10 +43,8 @@ const Trending = (props) => {
     <div className={`trend-wrapper ${className}`} {...rest}>
       <PostImage to={to} url={url} classLink="trend-thumb"></PostImage>
       <div className="trend-content">
-        <Link to={to}>
-          <h3 className="trend-title heading-2 text-gradient">{title}</h3>
-        </Link>
-
+        <Link></Link>
+        <h3 className="trend-title heading-2 text-gradient">{title}</h3>
         <PostMeta category={postCategory} time={time}></PostMeta>
         <p className="trend-desc bodycopy">{desc}</p>
       </div>

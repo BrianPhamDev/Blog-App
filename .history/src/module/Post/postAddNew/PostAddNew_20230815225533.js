@@ -56,10 +56,6 @@ const PostAddNew = () => {
   };
 
   useEffect(() => {
-    document.title = "Add new post";
-  });
-
-  useEffect(() => {
     const getData = async () => {
       const colref = collection(db, "categories");
 

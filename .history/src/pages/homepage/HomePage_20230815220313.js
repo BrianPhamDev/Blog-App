@@ -6,7 +6,10 @@ import HomeTrending from "../../module/HomePage/HomeTrending/HomeTrending";
 import Heading from "../../components/layout/heading/Heading";
 import RecentNews from "../../module/RecentNews/RecentNews";
 
+import { auth } from "../../firebase/firebase-config";
+
 const HomePage = () => {
+  console.log(auth.currentUser);
   return (
     <div className="container">
       <Layout>

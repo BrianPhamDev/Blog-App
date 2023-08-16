@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./trending.scss";
 import PostMeta from "../../../module/Post/postMeta/PostMeta";
 import PostImage from "../../../module/Post/postImage/PostImage";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, query, where } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
-import { Link } from "react-router-dom";
 
 const Trending = (props) => {
   const {
@@ -43,10 +42,7 @@ const Trending = (props) => {
     <div className={`trend-wrapper ${className}`} {...rest}>
       <PostImage to={to} url={url} classLink="trend-thumb"></PostImage>
       <div className="trend-content">
-        <Link to={to}>
-          <h3 className="trend-title heading-2 text-gradient">{title}</h3>
-        </Link>
-
+        <h3 className="trend-title heading-2 text-gradient">{title}</h3>
         <PostMeta category={postCategory} time={time}></PostMeta>
         <p className="trend-desc bodycopy">{desc}</p>
       </div>

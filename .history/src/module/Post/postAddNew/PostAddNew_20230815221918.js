@@ -37,7 +37,6 @@ const PostAddNew = () => {
       createdAt: "",
     },
   });
-  const [loading, setLoading] = useState(false);
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -54,10 +53,6 @@ const PostAddNew = () => {
     setValue("categoryId", item.id); //for form submit
     setSelectedCategory(item); //for Dropdown.Select
   };
-
-  useEffect(() => {
-    document.title = "Add new post";
-  });
 
   useEffect(() => {
     const getData = async () => {
@@ -84,38 +79,31 @@ const PostAddNew = () => {
   // const watchCategory = watch("category");
 
   const addPostHandler = async (values) => {
-    setLoading(true);
-    try {
-      const cloneValues = { ...values };
-      cloneValues.slug = slugify(values.slug || values.title, { lower: true });
-      cloneValues.status = Number(cloneValues.status);
-      const colRef = collection(db, "posts");
-      await addDoc(colRef, {
-        ...cloneValues,
-        image,
-        userId: userInfo.uid,
-        createdAt: serverTimestamp(),
-      });
-      toast.success("Create new post successfully");
-      console.log(cloneValues);
-      reset({
-        title: "",
-        slug: "",
-        status: 2,
-        categoryId: "",
-        image: "",
-        featured: "",
-        description: "",
-        createdAt: "",
-      });
-      setSelectedCategory("");
-      setImage("");
-      setProgress(0);
-    } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+    const cloneValues = { ...values };
+    cloneValues.slug = slugify(values.slug || values.title, { lower: true });
+    cloneValues.status = Number(cloneValues.status);
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, {
+      ...cloneValues,
+      image,
+      userId: userInfo.uid,
+      createdAt: serverTimestamp(),
+    });
+    toast.success("Create new post successfully");
+    console.log(cloneValues);
+    reset({
+      title: "",
+      slug: "",
+      status: 2,
+      categoryId: "",
+      image: "",
+      featured: "",
+      description: "",
+      createdAt: "",
+    });
+    setSelectedCategory("");
+    setImage("");
+    setProgress(0);
   };
   return (
     <div>
@@ -224,12 +212,7 @@ const PostAddNew = () => {
             ></Toggle>
           </Field>
         </div>
-        <Button
-          type="submit"
-          className="mx-auto"
-          isLoading={loading}
-          disabled={loading}
-        >
+        <Button type="submit" className="mx-auto">
           Add new post
         </Button>
       </form>

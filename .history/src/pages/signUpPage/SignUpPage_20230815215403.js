@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../firebase/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
 
 const schema = yup
@@ -36,7 +36,6 @@ const SignUpPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
-
   const onSubmit = async (data) => {
     if (!isValid) return;
     //console.log(data);
@@ -45,19 +44,13 @@ const SignUpPage = () => {
 
     await updateProfile(auth.currentUser, { displayName: data.fullName });
 
-    // const colRef = collection(db, "users");
+    const colRef = collection(db, "users");
 
-    await setDoc(doc(db, "users", auth.currentUser.uid), {
+    await addDoc(colRef, {
       fullName: data.fullName,
       email: data.email,
       password: data.password,
     });
-
-    // await addDoc(colRef, {
-    //   fullName: data.fullName,
-    //   email: data.email,
-    //   password: data.password,
-    // });
 
     toast.success("User created succesfully!");
 

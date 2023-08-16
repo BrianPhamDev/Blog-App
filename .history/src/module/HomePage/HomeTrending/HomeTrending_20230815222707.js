@@ -45,8 +45,7 @@ const HomeTrending = () => {
           desc={item.description}
           to={item.slug}
           categoryId={item.categoryId}
-          to={item.slug}
-          // time={item.createdAt}
+          time={item.createdAt}
         ></Trending>
       ))}
     </div>

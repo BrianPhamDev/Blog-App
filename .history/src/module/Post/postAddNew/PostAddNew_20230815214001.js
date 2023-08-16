@@ -11,14 +11,7 @@ import { postStatus } from "../../../utils/constants";
 import ImageUpload from "../../../components/image/ImageUpload";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import Toggle from "../../../components/toggle/Toggle";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
 import { useAuth } from "../../../contexts/auth-context";
 import { toast } from "react-toastify";
@@ -34,10 +27,8 @@ const PostAddNew = () => {
       categoryId: "",
       image: "",
       featured: "",
-      createdAt: "",
     },
   });
-  const [loading, setLoading] = useState(false);
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -56,10 +47,6 @@ const PostAddNew = () => {
   };
 
   useEffect(() => {
-    document.title = "Add new post";
-  });
-
-  useEffect(() => {
     const getData = async () => {
       const colref = collection(db, "categories");
 
@@ -69,7 +56,6 @@ const PostAddNew = () => {
       querySnapshot.forEach((doc) => {
         result.push({
           id: doc.id,
-          createdAt: serverTimestamp(),
           ...doc.data(),
         });
       });
@@ -84,38 +70,29 @@ const PostAddNew = () => {
   // const watchCategory = watch("category");
 
   const addPostHandler = async (values) => {
-    setLoading(true);
-    try {
-      const cloneValues = { ...values };
-      cloneValues.slug = slugify(values.slug || values.title, { lower: true });
-      cloneValues.status = Number(cloneValues.status);
-      const colRef = collection(db, "posts");
-      await addDoc(colRef, {
-        ...cloneValues,
-        image,
-        userId: userInfo.uid,
-        createdAt: serverTimestamp(),
-      });
-      toast.success("Create new post successfully");
-      console.log(cloneValues);
-      reset({
-        title: "",
-        slug: "",
-        status: 2,
-        categoryId: "",
-        image: "",
-        featured: "",
-        description: "",
-        createdAt: "",
-      });
-      setSelectedCategory("");
-      setImage("");
-      setProgress(0);
-    } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+    const cloneValues = { ...values };
+    cloneValues.slug = slugify(values.slug || values.title, { lower: true });
+    cloneValues.status = Number(cloneValues.status);
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, {
+      ...cloneValues,
+      image,
+      userId: userInfo.uid,
+    });
+    toast.success("Create new post successfully");
+    console.log(cloneValues);
+    reset({
+      title: "",
+      slug: "",
+      status: 2,
+      categoryId: "",
+      image: "",
+      featured: "",
+      description: "",
+    });
+    setSelectedCategory("");
+    setImage("");
+    setProgress(0);
   };
   return (
     <div>
@@ -224,12 +201,7 @@ const PostAddNew = () => {
             ></Toggle>
           </Field>
         </div>
-        <Button
-          type="submit"
-          className="mx-auto"
-          isLoading={loading}
-          disabled={loading}
-        >
+        <Button type="submit" className="mx-auto">
           Add new post
         </Button>
       </form>
