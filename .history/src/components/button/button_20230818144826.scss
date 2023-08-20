@@ -1,0 +1,20 @@
+.button {
+  &-primary {
+    @apply w-full px-[26px] rounded-md font-semibold cursor-pointer text-lg h-[54px] flex items-center justify-center text-white;
+
+    background-image: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--primary-grad2) 80%,
+      var(--primary-grad3) 100%
+    );
+
+    &:disabled {
+      @apply opacity-50 pointer-events-none;
+    }
+  }
+  &-secondary {
+    @extend .button-primary;
+    @apply text-black;
+  }
+}

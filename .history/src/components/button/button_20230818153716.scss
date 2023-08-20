@@ -1,0 +1,18 @@
+.button {
+  &-base {
+    @apply w-full px-[26px] rounded-md font-semibold cursor-pointer text-lg h-[54px] flex items-center justify-center;
+
+    &:disabled {
+      @apply opacity-50 pointer-events-none;
+    }
+  }
+  &-primary {
+    @extend .button-base;
+    @apply background-gradient text-white;
+  }
+
+  &-secondary {
+    @extend .button-base;
+    @apply text-[var(--primary)] border-2 border-[var(--primary)] border-solid;
+  }
+}
