@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import DashboardHeading from "../dashboard/DashboardHeading";
 import { Field } from "../../components/field";
 import { Label } from "../../components/label";
@@ -7,60 +7,55 @@ import { Input } from "../../components/input";
 import { Radio } from "../../components/checkbox";
 import { Button } from "../../components/button";
 import { FieldCheckboxes } from "../../components/field";
-import slugify from "slugify";
-import { categoryStatus } from "../../utils/constants";
-import { addDoc, collection } from "firebase/firestore";
+import { useForm } from "react-hook-form";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase-config";
-import { toast } from "react-toastify";
+import { categoryStatus } from "../../utils/constants";
 
-const CategoryAddNew = () => {
+const CategoryUpdate = () => {
+  const [params] = useSearchParams();
+  const categoryId = params.get("id");
+  // console.log(categoryId);
   const {
     control,
-    formState: { isSubmitting, isValid },
-    handleSubmit,
-    watch,
     reset,
+    watch,
+    values,
+    formState: { isSubmitting },
+    handleSubmit,
   } = useForm({
     mode: "onChange",
     defaultValues: {
       name: "",
       slug: "",
       status: 1,
-      createdAt: new Date(),
     },
   });
 
-  const watchStatus = watch("status");
+  const watchStatus = Number(watch("status"));
 
-  const handleAddNewCategory = async (value) => {
-    if (!isValid) return;
-    const newValues = { ...value };
-    newValues.slug = slugify(value?.slug || value.name, { lower: true });
-    newValues.status = Number(newValues.status);
-    // console.log(newValues);
-    // console.log(value);
-
-    try {
-      const colRef = collection(db, "categories");
-      await addDoc(colRef, { ...newValues });
-
-      toast.success("New category added successfully");
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      reset({
-        name: "",
-        slug: "",
-        status: 1,
-        createdAt: new Date(),
-      });
+  useEffect(() => {
+    async function fetchData() {
+      const docRef = doc(db, "categories", `${categoryId}`);
+      const result = await getDoc(docRef);
+      reset(result.data());
     }
+    fetchData();
+  }, [categoryId, reset]);
+
+  const handleUpdateCategory = async (values) => {
+    const docRef = doc(db, "categories", `${categoryId}`);
+    await setDoc(docRef, { ...values });
+    console.log(values);
   };
 
   return (
     <div>
-      <DashboardHeading>Add category</DashboardHeading>
-      <form onSubmit={handleSubmit(handleAddNewCategory)}>
+      <DashboardHeading>Update category</DashboardHeading>
+      <h3 className="mb-8">
+        Category id: <span className="font-semibold">{categoryId}</span>
+      </h3>
+      <form onSubmit={handleSubmit(handleUpdateCategory)}>
         <div className="form-layout">
           <Field>
             <Label>Name</Label>
@@ -87,16 +82,16 @@ const CategoryAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.APPROVED}
                 value={categoryStatus.APPROVED}
+                checked={watchStatus === categoryStatus.APPROVED}
               >
                 Approved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.REJECTED}
                 value={categoryStatus.REJECTED}
+                checked={watchStatus === categoryStatus.REJECTED}
               >
                 Not Approved
               </Radio>
@@ -104,11 +99,11 @@ const CategoryAddNew = () => {
           </Field>
         </div>
         <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
-          Add category
+          Update category
         </Button>
       </form>
     </div>
   );
 };
 
-export default CategoryAddNew;
+export default CategoryUpdate;

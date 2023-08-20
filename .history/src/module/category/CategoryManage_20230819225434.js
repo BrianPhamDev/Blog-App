@@ -10,11 +10,10 @@ import { db } from "../../firebase/firebase-config";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { categoryStatus } from "../../utils/constants";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const colRef = collection(db, "categories");
@@ -29,6 +28,10 @@ const CategoryManage = () => {
       });
     });
   }, []);
+
+  const handleNavigation = (docId) => {
+    useNavigate(docId);
+  };
 
   const handleDeleteCategory = async (docId) => {
     const docRef = doc(db, "categories", docId);
@@ -91,7 +94,7 @@ const CategoryManage = () => {
                     <ActionView></ActionView>
                     <ActionEdit
                       onClick={() => {
-                        navigate(`/manage/update-category?id=${item.id}`);
+                        handleNavigation(item.id);
                       }}
                     ></ActionEdit>
                     <ActionDelete

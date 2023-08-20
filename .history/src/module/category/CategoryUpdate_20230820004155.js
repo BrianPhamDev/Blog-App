@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import DashboardHeading from "../dashboard/DashboardHeading";
 import { Field } from "../../components/field";
 import { Label } from "../../components/label";
@@ -7,60 +7,69 @@ import { Input } from "../../components/input";
 import { Radio } from "../../components/checkbox";
 import { Button } from "../../components/button";
 import { FieldCheckboxes } from "../../components/field";
-import slugify from "slugify";
-import { categoryStatus } from "../../utils/constants";
-import { addDoc, collection } from "firebase/firestore";
+import { useForm } from "react-hook-form";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase-config";
+import { categoryStatus } from "../../utils/constants";
+import slugify from "slugify";
 import { toast } from "react-toastify";
 
-const CategoryAddNew = () => {
+const CategoryUpdate = () => {
+  const [params] = useSearchParams();
+  const categoryId = params.get("id");
+  const navigate = useNavigate();
   const {
     control,
-    formState: { isSubmitting, isValid },
-    handleSubmit,
-    watch,
     reset,
+    watch,
+    values,
+    formState: { isSubmitting },
+    handleSubmit,
   } = useForm({
     mode: "onChange",
     defaultValues: {
       name: "",
       slug: "",
       status: 1,
-      createdAt: new Date(),
     },
   });
 
-  const watchStatus = watch("status");
+  const watchStatus = Number(watch("status"));
 
-  const handleAddNewCategory = async (value) => {
-    if (!isValid) return;
-    const newValues = { ...value };
-    newValues.slug = slugify(value?.slug || value.name, { lower: true });
-    newValues.status = Number(newValues.status);
-    // console.log(newValues);
-    // console.log(value);
+  useEffect(() => {
+    async function fetchData() {
+      const docRef = doc(db, "categories", `${categoryId}`);
+      const result = await getDoc(docRef);
+      reset(result.data());
+    }
+    fetchData();
+  }, [categoryId, reset]);
 
+  const handleUpdateCategory = async (values) => {
     try {
-      const colRef = collection(db, "categories");
-      await addDoc(colRef, { ...newValues });
+      const docRef = doc(db, "categories", `${categoryId}`);
 
-      toast.success("New category added successfully");
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      reset({
-        name: "",
-        slug: "",
-        status: 1,
-        createdAt: new Date(),
+      await setDoc(docRef, {
+        name: values.name,
+        slug: slugify(values.slug, { lower: true }),
+        status: Number(values.status),
       });
+      console.log(values);
+      toast.success("Category is updated");
+    } catch (error) {
+      toast.warn(error);
+    } finally {
+      navigate("/manage/category");
     }
   };
 
   return (
     <div>
-      <DashboardHeading>Add category</DashboardHeading>
-      <form onSubmit={handleSubmit(handleAddNewCategory)}>
+      <DashboardHeading>Update category</DashboardHeading>
+      <h3 className="mb-8">
+        Category id: <span className="font-semibold">{categoryId}</span>
+      </h3>
+      <form onSubmit={handleSubmit(handleUpdateCategory)}>
         <div className="form-layout">
           <Field>
             <Label>Name</Label>
@@ -87,16 +96,16 @@ const CategoryAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.APPROVED}
                 value={categoryStatus.APPROVED}
+                checked={watchStatus === categoryStatus.APPROVED}
               >
                 Approved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.REJECTED}
                 value={categoryStatus.REJECTED}
+                checked={watchStatus === categoryStatus.REJECTED}
               >
                 Not Approved
               </Radio>
@@ -104,11 +113,11 @@ const CategoryAddNew = () => {
           </Field>
         </div>
         <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
-          Add category
+          Update category
         </Button>
       </form>
     </div>
   );
 };
 
-export default CategoryAddNew;
+export default CategoryUpdate;

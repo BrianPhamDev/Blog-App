@@ -37,8 +37,8 @@ const CategoryAddNew = () => {
     const newValues = { ...value };
     newValues.slug = slugify(value?.slug || value.name, { lower: true });
     newValues.status = Number(newValues.status);
-    // console.log(newValues);
-    // console.log(value);
+    console.log(newValues);
+    console.log(value);
 
     try {
       const colRef = collection(db, "categories");

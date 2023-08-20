@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const colRef = collection(db, "categories");
@@ -28,6 +27,7 @@ const CategoryManage = () => {
         setCategoryList(results);
       });
     });
+    const navigate = useNavigate();
   }, []);
 
   const handleDeleteCategory = async (docId) => {
@@ -91,7 +91,7 @@ const CategoryManage = () => {
                     <ActionView></ActionView>
                     <ActionEdit
                       onClick={() => {
-                        navigate(`/manage/update-category?id=${item.id}`);
+                        navigate(item.id);
                       }}
                     ></ActionEdit>
                     <ActionDelete

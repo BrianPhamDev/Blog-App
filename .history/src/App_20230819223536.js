@@ -40,7 +40,7 @@ function App() {
               element={<CategoryAddNew></CategoryAddNew>}
             ></Route>
             <Route
-              path="/manage/update-category/"
+              path="/manage/update-category"
               element={<CategoryUpdate></CategoryUpdate>}
             ></Route>
             <Route

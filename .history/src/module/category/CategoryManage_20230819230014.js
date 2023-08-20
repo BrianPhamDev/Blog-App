@@ -91,7 +91,7 @@ const CategoryManage = () => {
                     <ActionView></ActionView>
                     <ActionEdit
                       onClick={() => {
-                        navigate(`/manage/update-category?id=${item.id}`);
+                        navigate(`/update-category?id=${item.id}`);
                       }}
                     ></ActionEdit>
                     <ActionDelete

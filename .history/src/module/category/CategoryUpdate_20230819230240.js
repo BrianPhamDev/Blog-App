@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
 import DashboardHeading from "../dashboard/DashboardHeading";
 import { Field } from "../../components/field";
 import { Label } from "../../components/label";
@@ -7,59 +7,14 @@ import { Input } from "../../components/input";
 import { Radio } from "../../components/checkbox";
 import { Button } from "../../components/button";
 import { FieldCheckboxes } from "../../components/field";
-import slugify from "slugify";
-import { categoryStatus } from "../../utils/constants";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase/firebase-config";
-import { toast } from "react-toastify";
 
-const CategoryAddNew = () => {
-  const {
-    control,
-    formState: { isSubmitting, isValid },
-    handleSubmit,
-    watch,
-    reset,
-  } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      name: "",
-      slug: "",
-      status: 1,
-      createdAt: new Date(),
-    },
-  });
-
-  const watchStatus = watch("status");
-
-  const handleAddNewCategory = async (value) => {
-    if (!isValid) return;
-    const newValues = { ...value };
-    newValues.slug = slugify(value?.slug || value.name, { lower: true });
-    newValues.status = Number(newValues.status);
-    // console.log(newValues);
-    // console.log(value);
-
-    try {
-      const colRef = collection(db, "categories");
-      await addDoc(colRef, { ...newValues });
-
-      toast.success("New category added successfully");
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      reset({
-        name: "",
-        slug: "",
-        status: 1,
-        createdAt: new Date(),
-      });
-    }
-  };
-
+const CategoryUpdate = () => {
+  const [params] = useSearchParams();
+  const categoryId = params.get("id");
   return (
     <div>
-      <DashboardHeading>Add category</DashboardHeading>
+      <DashboardHeading>Update category</DashboardHeading>
+      <h3>Update category id: {categoryId}</h3>
       <form onSubmit={handleSubmit(handleAddNewCategory)}>
         <div className="form-layout">
           <Field>
@@ -111,4 +66,4 @@ const CategoryAddNew = () => {
   );
 };
 
-export default CategoryAddNew;
+export default CategoryUpdate;

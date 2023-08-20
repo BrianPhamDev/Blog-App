@@ -30,6 +30,8 @@ const CategoryManage = () => {
     });
   }, []);
 
+  const handleNavigation = (docId) => {};
+
   const handleDeleteCategory = async (docId) => {
     const docRef = doc(db, "categories", docId);
 
@@ -91,7 +93,7 @@ const CategoryManage = () => {
                     <ActionView></ActionView>
                     <ActionEdit
                       onClick={() => {
-                        navigate(`/manage/update-category?id=${item.id}`);
+                        handleNavigation(item.id);
                       }}
                     ></ActionEdit>
                     <ActionDelete
