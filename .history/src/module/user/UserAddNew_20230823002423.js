@@ -60,6 +60,7 @@ const UserAddNew = () => {
         username: slugify(values.username || values.fullName, {
           lower: true,
           replacement: " ",
+          trim: true,
         }),
         avatar: image,
         status: Number(values.status),

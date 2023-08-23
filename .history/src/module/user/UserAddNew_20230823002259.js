@@ -60,6 +60,7 @@ const UserAddNew = () => {
         username: slugify(values.username || values.fullName, {
           lower: true,
           replacement: " ",
+          trim: true,
         }),
         avatar: image,
         status: Number(values.status),
@@ -101,7 +102,7 @@ const UserAddNew = () => {
           <Field>
             <Label>Full Name</Label>
             <Input
-              name="fullName"
+              name="fullname"
               placeholder="Enter your fullname"
               control={control}
             ></Input>

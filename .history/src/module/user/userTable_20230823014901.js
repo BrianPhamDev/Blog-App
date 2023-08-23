@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
 import { doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { deleteUser } from "firebase/auth";
 
 const UserTable = () => {
   const [userList, setUserList] = useState([]);
@@ -40,7 +42,7 @@ const UserTable = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    const docRef = doc(db, "users", userId.id);
+    const docRef = doc(db, "users", userId);
 
     Swal.fire({
       title: "Are you sure?",
@@ -53,7 +55,7 @@ const UserTable = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteDoc(docRef);
-        // await deleteUser(userId);
+        await deleteUser(userId);
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });

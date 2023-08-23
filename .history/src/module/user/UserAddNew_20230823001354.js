@@ -12,7 +12,7 @@ import { userStatus } from "../../utils/constants";
 import { userRole } from "../../utils/constants";
 import { auth, db } from "../../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, serverTimestamp, addDoc } from "firebase/firestore";
+import { collection, serverTimestamp, setDoc } from "firebase/firestore";
 import slugify from "slugify";
 import { toast } from "react-toastify";
 
@@ -53,13 +53,14 @@ const UserAddNew = () => {
     console.log(values);
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await addDoc(collection(db, "users"), {
+      await setDoc(collection(db, "users"), {
         fullName: values.fullName,
         email: values.email,
         password: values.password,
         username: slugify(values.username || values.fullName, {
           lower: true,
-          replacement: " ",
+          replacement: "",
+          trim: true,
         }),
         avatar: image,
         status: Number(values.status),
@@ -101,7 +102,7 @@ const UserAddNew = () => {
           <Field>
             <Label>Full Name</Label>
             <Input
-              name="fullName"
+              name="fullname"
               placeholder="Enter your fullname"
               control={control}
             ></Input>

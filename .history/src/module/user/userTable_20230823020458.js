@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
 import { doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { deleteUser } from "firebase/auth";
 
 const UserTable = () => {
   const [userList, setUserList] = useState([]);

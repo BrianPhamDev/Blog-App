@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { auth, db } from "../../firebase/firebase-config";
+import { db } from "../../firebase/firebase-config";
 import { collection, deleteDoc, onSnapshot } from "firebase/firestore";
 import Table from "../../components/table/Table";
 import ActionDelete from "../../components/action/ActionDelete";
@@ -8,8 +8,6 @@ import ActionView from "../../components/action/ActionView";
 import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
-import { doc } from "firebase/firestore";
-import Swal from "sweetalert2";
 
 const UserTable = () => {
   const [userList, setUserList] = useState([]);
@@ -40,23 +38,8 @@ const UserTable = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    const docRef = doc(db, "users", userId.id);
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await deleteDoc(docRef);
-        // await deleteUser(userId);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
+    const docRef = doc(db, "users", userId);
+    await deleteDoc(docRef);
   };
 
   useEffect(() => {
@@ -71,7 +54,6 @@ const UserTable = () => {
       });
       // console.log(snapshot.docs[0].data());
       console.log(results);
-      console.log(auth);
       setUserList(results);
     });
   }, []);
@@ -130,7 +112,7 @@ const UserTable = () => {
                       ></ActionEdit>
                       <ActionDelete
                         onClick={() => {
-                          handleDeleteUser(item);
+                          handleDeleteUser(item.id);
                         }}
                       ></ActionDelete>
                     </div>

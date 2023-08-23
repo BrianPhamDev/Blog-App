@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
 import { doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { deleteUser } from "firebase/auth";
 
 const UserTable = () => {
   const [userList, setUserList] = useState([]);
@@ -40,23 +42,28 @@ const UserTable = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    const docRef = doc(db, "users", userId.id);
+    try {
+      const docRef = doc(db, "users", userId);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteDoc(docRef);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
 
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await deleteDoc(docRef);
-        // await deleteUser(userId);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
+      await deleteUser(userId);
+      toast.success("Successfully deleted user");
+    } catch (error) {
+      toast.error("Error deleting user");
+    }
   };
 
   useEffect(() => {

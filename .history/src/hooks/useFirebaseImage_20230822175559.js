@@ -88,6 +88,5 @@ export default function useFirebaseImage(setValue, getValues) {
     handleDeleteImage,
     setImage,
     setProgress,
-    handeResetUpload,
   };
 }

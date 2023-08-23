@@ -12,7 +12,7 @@ import { userStatus } from "../../utils/constants";
 import { userRole } from "../../utils/constants";
 import { auth, db } from "../../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, serverTimestamp, addDoc } from "firebase/firestore";
+import { collection, serverTimestamp, setDoc } from "firebase/firestore";
 import slugify from "slugify";
 import { toast } from "react-toastify";
 
@@ -27,7 +27,7 @@ const UserAddNew = () => {
     formState: { isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
-    defaultValues: {
+    defaultValues: {{
       fullName: "",
       email: "",
       password: "",
@@ -36,6 +36,7 @@ const UserAddNew = () => {
       status: userStatus.ACTIVE,
       role: userRole.USER,
       createdAt: new Date(),
+    }
     },
   });
   const {
@@ -47,42 +48,34 @@ const UserAddNew = () => {
   } = useFirebaseImage(setValue, getValues);
   const watchStatus = watch("status");
   const watchRoles = watch("role");
+  console.log(auth);
   const handleCreateUser = async (values) => {
     if (!isValid) return;
 
     console.log(values);
-    try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await addDoc(collection(db, "users"), {
-        fullName: values.fullName,
-        email: values.email,
-        password: values.password,
-        username: slugify(values.username || values.fullName, {
-          lower: true,
-          replacement: " ",
-        }),
-        avatar: image,
-        status: Number(values.status),
-        role: Number(values.role),
-        createdAt: serverTimestamp(),
-      });
-      toast.success(`New user ${values.email} created succesfully`);
-    } catch (error) {
-      console.log(error);
-      toast.error("Can not create new user");
-    } finally {
-      reset({
-        fullName: "",
-        email: "",
-        password: "",
-        username: "",
-        avatar: "",
-        status: userStatus.ACTIVE,
-        role: userRole.USER,
-        createdAt: new Date(),
-      });
-      handeResetUpload();
-    }
+    await createUserWithEmailAndPassword(auth, values.email, values.password);
+    await setDoc(collection(db, "users"), {
+      fullName: values.fullName,
+      email: values.email,
+      password: values.password,
+      username: slugify(values.fullName, { lower: true }),
+      avatar: image,
+      status: Number(values.status),
+      role: Number(values.role),
+      createdAt: serverTimestamp(),
+    });
+    toast.success(`New user ${values.email} created succesfully`);
+    reset({
+      fullName: "",
+      email: "",
+      password: "",
+      username: "",
+      avatar: "",
+      status: userStatus.ACTIVE,
+      role: userRole.USER,
+      createdAt: new Date(),
+    });
+    handeResetUpload();
   };
   return (
     <div>
@@ -101,7 +94,7 @@ const UserAddNew = () => {
           <Field>
             <Label>Full Name</Label>
             <Input
-              name="fullName"
+              name="fullname"
               placeholder="Enter your fullname"
               control={control}
             ></Input>

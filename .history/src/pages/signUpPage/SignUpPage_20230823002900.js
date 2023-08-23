@@ -95,8 +95,8 @@ const SignUpPage = () => {
           <Label htmlFor="password">Password:</Label>
           <InputPasswordToggle control={control}></InputPasswordToggle>
         </Field>
-        <div className="button-text cursor-pointer hover:opacity-80 mb-6">
-          <NavLink className="" to={"/sign-in"}>
+        <div className="button-text cursor-pointer hover:opacity-80">
+          <NavLink className="mb-6" to={"/sign-in"}>
             Have an account?
           </NavLink>
         </div>

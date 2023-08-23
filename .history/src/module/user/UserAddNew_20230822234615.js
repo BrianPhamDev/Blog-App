@@ -10,11 +10,6 @@ import ImageUpload from "../../components/image/ImageUpload";
 import useFirebaseImage from "../../hooks/useFirebaseImage";
 import { userStatus } from "../../utils/constants";
 import { userRole } from "../../utils/constants";
-import { auth, db } from "../../firebase/firebase-config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, serverTimestamp, addDoc } from "firebase/firestore";
-import slugify from "slugify";
-import { toast } from "react-toastify";
 
 const UserAddNew = () => {
   const {
@@ -23,19 +18,11 @@ const UserAddNew = () => {
     setValue,
     getValues,
     watch,
-    reset,
     formState: { isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      username: "",
-      avatar: "",
-      status: userStatus.ACTIVE,
-      role: userRole.USER,
-      createdAt: new Date(),
+      status: 1,
     },
   });
   const {
@@ -47,42 +34,11 @@ const UserAddNew = () => {
   } = useFirebaseImage(setValue, getValues);
   const watchStatus = watch("status");
   const watchRoles = watch("role");
-  const handleCreateUser = async (values) => {
-    if (!isValid) return;
 
+  const handleCreateUser = (values) => {
+    if (!isValid) return;
     console.log(values);
-    try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await addDoc(collection(db, "users"), {
-        fullName: values.fullName,
-        email: values.email,
-        password: values.password,
-        username: slugify(values.username || values.fullName, {
-          lower: true,
-          replacement: " ",
-        }),
-        avatar: image,
-        status: Number(values.status),
-        role: Number(values.role),
-        createdAt: serverTimestamp(),
-      });
-      toast.success(`New user ${values.email} created succesfully`);
-    } catch (error) {
-      console.log(error);
-      toast.error("Can not create new user");
-    } finally {
-      reset({
-        fullName: "",
-        email: "",
-        password: "",
-        username: "",
-        avatar: "",
-        status: userStatus.ACTIVE,
-        role: userRole.USER,
-        createdAt: new Date(),
-      });
-      handeResetUpload();
-    }
+    handeResetUpload();
   };
   return (
     <div>
@@ -101,7 +57,7 @@ const UserAddNew = () => {
           <Field>
             <Label>Full Name</Label>
             <Input
-              name="fullName"
+              name="fullname"
               placeholder="Enter your fullname"
               control={control}
             ></Input>
@@ -195,12 +151,7 @@ const UserAddNew = () => {
             </FieldCheckboxes>
           </Field>
         </div>
-        <Button
-          type="submit"
-          className=""
-          disabled={isSubmitting}
-          isLoading={isSubmitting}
-        >
+        <Button type="submit" className="">
           Add user
         </Button>
       </form>
