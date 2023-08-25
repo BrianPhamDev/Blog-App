@@ -7,12 +7,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export default function useFirebaseImage(
-  setValue,
-  getValues,
-  imageName = null,
-  cb
-) {
+export default function useFirebaseImage(setValue, getValues, imageName) {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
 
@@ -68,7 +63,7 @@ export default function useFirebaseImage(
     // Create a reference to the file to delete
     const imageRef = ref(
       storage,
-      "images/" + (imageName || getValues("image_name"))
+      "images/" + imageName || getValues("image_name")
     );
 
     // Delete the file
@@ -77,7 +72,6 @@ export default function useFirebaseImage(
         console.log("File deleted successfully");
         setImage("");
         setProgress(0);
-        cb && cb();
       })
       .catch((error) => {
         console.log("Uh-oh, an error occurred!");

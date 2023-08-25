@@ -12,8 +12,10 @@ import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../firebase/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
+import slugify from "slugify";
+import { userRole, userStatus } from "../../utils/constants";
 
 const schema = yup
   .object({
@@ -36,24 +38,29 @@ const SignUpPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
+
   const onSubmit = async (data) => {
     if (!isValid) return;
-    //console.log(data);
 
     await createUserWithEmailAndPassword(auth, data.email, data.password);
-
-    await updateProfile(auth.currentUser, { displayName: data.fullName });
-
-    const colRef = collection(db, "user");
-
-    await addDoc(colRef, {
+    await updateProfile(auth.currentUser, {
+      displayName: data.fullName,
+      photoURL:
+        "https://images.unsplash.com/photo-1641465466286-a212311fc62d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    });
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullName: data.fullName,
       email: data.email,
       password: data.password,
+      username: slugify(data.fullName, { lower: true }),
+      avatar:
+        "https://images.unsplash.com/photo-1593985887762-955dccf2b71e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      status: userStatus.ACTIVE,
+      role: userRole.USER,
+      createdAt: serverTimestamp(),
     });
 
     toast.success("User created succesfully!");
-
     navigate("/");
   };
 
@@ -88,8 +95,10 @@ const SignUpPage = () => {
           <Label htmlFor="password">Password:</Label>
           <InputPasswordToggle control={control}></InputPasswordToggle>
         </Field>
-        <div className="button-text cursor-pointer hover:opacity-80">
-          <NavLink to={"/sign-in"}>Have an account?</NavLink>
+        <div className="button-text cursor-pointer hover:opacity-80 mb-6">
+          <NavLink className="" to={"/sign-in"}>
+            Have an account?
+          </NavLink>
         </div>
         <Button
           type="submit"

@@ -40,7 +40,7 @@ const UserUpdate = () => {
   const watchRoles = watch("role");
   const watchStatus = watch("status");
   const imageUrl = getValues("avatar");
-  const imageName = imageUrl?.match(/%2F(.*?)\?/)?.[1] || "";
+  const imageName = imageUrl.match(/%2F(.*?)\?/)?.[1] || "";
   const [params] = useSearchParams();
   const userId = params.get("id");
   const deleteAvatar = async () => {
@@ -53,13 +53,9 @@ const UserUpdate = () => {
     handleSelectImage,
     image,
     progress,
-    setImage,
     handleDeleteImage,
     handeResetUpload,
   } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
-  useEffect(() => {
-    setImage(imageUrl);
-  }, [setImage, imageUrl]);
   useEffect(() => {
     async function fetchData() {
       if (!userId) return;
@@ -93,7 +89,7 @@ const UserUpdate = () => {
       <div className="mb-[60px] pt-[24px]">
         <ImageUpload
           className="max-w-[200px] max-h-[200px] !rounded-full min-h-0 mx-auto"
-          image={image}
+          image={image || imageUrl}
           onChange={handleSelectImage}
           progress={progress}
           handleDeleteImage={handleDeleteImage}

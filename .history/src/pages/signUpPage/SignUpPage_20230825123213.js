@@ -46,7 +46,7 @@ const SignUpPage = () => {
     await updateProfile(auth.currentUser, {
       displayName: data.fullName,
       photoURL:
-        "https://firebasestorage.googleapis.com/v0/b/blogging-dc5e9.appspot.com/o/images%2Fdefault-avatar.webp?alt=media&token=a6187cf5-9294-4d1d-aaf3-565fa8598a88",
+        "https://images.unsplash.com/photo-1641465466286-a212311fc62d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     });
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullName: data.fullName,

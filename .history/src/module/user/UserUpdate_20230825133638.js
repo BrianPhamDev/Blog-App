@@ -40,7 +40,7 @@ const UserUpdate = () => {
   const watchRoles = watch("role");
   const watchStatus = watch("status");
   const imageUrl = getValues("avatar");
-  const imageName = imageUrl?.match(/%2F(.*?)\?/)?.[1] || "";
+  const imageName = imageUrl.match(/%2F(.*?)\?/)?.[1] || "";
   const [params] = useSearchParams();
   const userId = params.get("id");
   const deleteAvatar = async () => {
@@ -59,7 +59,7 @@ const UserUpdate = () => {
   } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
   useEffect(() => {
     setImage(imageUrl);
-  }, [setImage, imageUrl]);
+  });
   useEffect(() => {
     async function fetchData() {
       if (!userId) return;

@@ -10,8 +10,7 @@ import {
 export default function useFirebaseImage(
   setValue,
   getValues,
-  imageName = null,
-  cb
+  imageName = null
 ) {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
@@ -77,7 +76,6 @@ export default function useFirebaseImage(
         console.log("File deleted successfully");
         setImage("");
         setProgress(0);
-        cb && cb();
       })
       .catch((error) => {
         console.log("Uh-oh, an error occurred!");
