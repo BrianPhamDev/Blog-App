@@ -8,22 +8,11 @@ import ActionView from "../../components/action/ActionView";
 import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
-import {
-  doc,
-  where,
-  orderBy,
-  limit,
-  getDocs,
-  startAfter,
-} from "firebase/firestore";
+import { doc, where, orderBy } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 const UserTable = ({ filter }) => {
-  const categoryPerPage = 1;
   const [userList, setUserList] = useState([]);
-  const [lastDoc, setLastDoc] = useState();
-  const [total, setTotal] = useState(0);
-
   const navigate = useNavigate();
   const renderUserStatus = (status) => {
     switch (status) {
@@ -70,14 +59,15 @@ const UserTable = ({ filter }) => {
     });
   };
 
-  const handleLoadMore = async () => {
-    const nextRef = query(
-      collection(db, "users"),
-      orderBy("username"),
-      startAfter(lastDoc || 0),
-      limit(categoryPerPage)
+  useEffect(() => {
+    const colRef = collection(db, "users");
+    const queryRef = query(
+      colRef,
+      where("name", ">=", filter),
+      where("name", "<", filter + "\uf8ff"),
+      orderBy("name")
     );
-    onSnapshot(nextRef, (snapshot) => {
+    onSnapshot(Ref, (snapshot) => {
       let results = [];
       snapshot.forEach((item) => {
         results.push({
@@ -85,50 +75,9 @@ const UserTable = ({ filter }) => {
           ...item.data(),
         });
       });
-      setUserList([...userList, ...results]);
+      setUserList(results);
     });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
-  };
-
-  useEffect(() => {
-    async function fetchData() {
-      const colRef = collection(db, "users");
-      const queryRef = filter
-        ? query(
-            colRef,
-            where("username", ">=", filter),
-            where("username", "<", filter + "\uf8ff"),
-            orderBy("username"),
-            limit(categoryPerPage)
-          )
-        : query(colRef, orderBy("username"), limit(categoryPerPage));
-
-      const documentSnapshots = await getDocs(queryRef);
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      setLastDoc(lastVisible);
-
-      onSnapshot(colRef, (snapshot) => {
-        setTotal(snapshot.size);
-      });
-
-      onSnapshot(queryRef, (snapshot) => {
-        let results = [];
-        snapshot.forEach((item) => {
-          results.push({
-            id: item.id,
-            ...item.data(),
-          });
-        });
-        setUserList(results);
-      });
-    }
-    fetchData();
-  }, [filter]);
+  }, []);
   return (
     <div>
       <Table>
@@ -194,16 +143,6 @@ const UserTable = ({ filter }) => {
             })}
         </tbody>
       </Table>
-      {total > userList.length && (
-        <div className="mt-10 flex justify-center w-full items-center">
-          <button
-            className="px-8 bg-[var(--gray-600)] text-white font-semibold py-3 rounded-md"
-            onClick={handleLoadMore}
-          >
-            Load more
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -8,9 +8,7 @@ const UserManage = () => {
   const [filter, setFilter] = useState("");
   const handleInputChange = debounce((e) => {
     setFilter(e.target.value);
-  }, 350);
-  console.log(filter);
-
+  });
   return (
     <div>
       <DashboardHeading>Users</DashboardHeading>
@@ -27,7 +25,7 @@ const UserManage = () => {
           onChange={handleInputChange}
         />
       </div>
-      <UserTable filter={filter}></UserTable>
+      <UserTable></UserTable>
     </div>
   );
 };

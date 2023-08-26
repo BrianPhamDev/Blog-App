@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 
 const DashboardHeader = () => {
   return (
-    <div className="dashboard-header-wrapper bg-white py-5 flex justify-between">
+    <div className="dashboard-header-wrapper bg-white border-b border-b-black flex justify-between">
       <NavLink to="/">
-        <img src="/Logo.svg" alt="Newsiten" className="header-logo" />
+        <img src="./Logo.svg" alt="Newsiten" className="header-logo" />
       </NavLink>
 
       <div className="flex gap-5">

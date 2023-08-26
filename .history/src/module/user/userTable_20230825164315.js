@@ -87,11 +87,6 @@ const UserTable = ({ filter }) => {
       });
       setUserList([...userList, ...results]);
     });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
   };
 
   useEffect(() => {

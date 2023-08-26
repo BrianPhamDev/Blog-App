@@ -4,12 +4,11 @@ import { NavLink } from "react-router-dom";
 
 const DashboardHeader = () => {
   return (
-    <div className="dashboard-header-wrapper bg-white py-5 flex justify-between">
+    <div className="dashboard-header-wrapper bg-white p-5 border-b border-b-black flex gap-5 justify-end">
       <NavLink to="/">
-        <img src="/Logo.svg" alt="Newsiten" className="header-logo" />
+        <img src="./Logo.svg" alt="Newsiten" className="header-logo" />
       </NavLink>
-
-      <div className="flex gap-5">
+      <div className="">
         <Button
           to="/dashboard"
           type="button"

@@ -29,7 +29,7 @@ const CategoryManage = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [lastDoc, setLastDoc] = useState();
-  const categoryPerPage = 10;
+  const categoryPerPage = 12;
   const [total, setTotal] = useState(0);
   const handleLoadMore = async () => {
     const nextRef = query(

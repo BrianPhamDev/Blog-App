@@ -8,14 +8,7 @@ import ActionView from "../../components/action/ActionView";
 import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
-import {
-  doc,
-  where,
-  orderBy,
-  limit,
-  getDocs,
-  startAfter,
-} from "firebase/firestore";
+import { doc, where, orderBy, limit, getDocs } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 const UserTable = ({ filter }) => {
@@ -70,29 +63,7 @@ const UserTable = ({ filter }) => {
     });
   };
 
-  const handleLoadMore = async () => {
-    const nextRef = query(
-      collection(db, "users"),
-      orderBy("username"),
-      startAfter(lastDoc || 0),
-      limit(categoryPerPage)
-    );
-    onSnapshot(nextRef, (snapshot) => {
-      let results = [];
-      snapshot.forEach((item) => {
-        results.push({
-          id: item.id,
-          ...item.data(),
-        });
-      });
-      setUserList([...userList, ...results]);
-    });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
-  };
+  const handleLoadMore = async () => {};
 
   useEffect(() => {
     async function fetchData() {

@@ -77,6 +77,7 @@ const UserUpdate = () => {
       const docRef = doc(db, "users", userId);
       await updateDoc(docRef, { ...values, avatar: image });
       toast.success("User updated succesfully");
+      console.log(getValues("role"));
     } catch (error) {
       toast.error("User failed to update");
     }

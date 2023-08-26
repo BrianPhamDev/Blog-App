@@ -91,7 +91,6 @@ const UserTable = ({ filter }) => {
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
     setLastDoc(lastVisible);
-    console.log(lastVisible);
   };
 
   useEffect(() => {

@@ -8,14 +8,7 @@ import ActionView from "../../components/action/ActionView";
 import { useNavigate } from "react-router-dom";
 import { LabelStatus } from "../../components/label";
 import { userStatus, userRole } from "../../utils/constants";
-import {
-  doc,
-  where,
-  orderBy,
-  limit,
-  getDocs,
-  startAfter,
-} from "firebase/firestore";
+import { doc, where, orderBy, limit, getDocs } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 const UserTable = ({ filter }) => {
@@ -68,15 +61,14 @@ const UserTable = ({ filter }) => {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });
-  };
-
-  const handleLoadMore = async () => {
+  };const handleLoadMore = async () => {
     const nextRef = query(
       collection(db, "users"),
       orderBy("username"),
       startAfter(lastDoc || 0),
       limit(categoryPerPage)
     );
+
     onSnapshot(nextRef, (snapshot) => {
       let results = [];
       snapshot.forEach((item) => {
@@ -85,14 +77,8 @@ const UserTable = ({ filter }) => {
           ...item.data(),
         });
       });
-      setUserList([...userList, ...results]);
+      setCategoryList([...userList, ...results]);
     });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
-  };
 
   useEffect(() => {
     async function fetchData() {
@@ -197,8 +183,7 @@ const UserTable = ({ filter }) => {
       {total > userList.length && (
         <div className="mt-10 flex justify-center w-full items-center">
           <button
-            className="px-8 bg-[var(--gray-600)] text-white font-semibold py-3 rounded-md"
-            onClick={handleLoadMore}
+            className="px-8 bg-[var(--gray-600)] text-white font-semibold py-3 rounded-md" onClick={handleLoadMore}
           >
             Load more
           </button>

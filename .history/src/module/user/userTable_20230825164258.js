@@ -77,21 +77,6 @@ const UserTable = ({ filter }) => {
       startAfter(lastDoc || 0),
       limit(categoryPerPage)
     );
-    onSnapshot(nextRef, (snapshot) => {
-      let results = [];
-      snapshot.forEach((item) => {
-        results.push({
-          id: item.id,
-          ...item.data(),
-        });
-      });
-      setUserList([...userList, ...results]);
-    });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
   };
 
   useEffect(() => {
