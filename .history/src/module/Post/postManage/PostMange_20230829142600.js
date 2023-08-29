@@ -30,7 +30,7 @@ const PostManage = () => {
   const handleLoadMore = async () => {
     const nextRef = query(
       collection(db, "posts"),
-      orderBy("title"),
+      orderBy("username"),
       startAfter(lastDoc || 0),
       limit(postPerPage)
     );

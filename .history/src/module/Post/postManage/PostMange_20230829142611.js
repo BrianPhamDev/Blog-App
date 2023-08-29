@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 const PostManage = () => {
   const [postList, setPostList] = useState([]);
   const [filter, setFilter] = useState("");
-  const postPerPage = 10;
+  const postPerPage = 1;
   const [lastDoc, setLastDoc] = useState();
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();

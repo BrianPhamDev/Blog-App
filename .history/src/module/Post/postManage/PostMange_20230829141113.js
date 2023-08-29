@@ -9,7 +9,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  startAfter,
   where,
 } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
@@ -22,34 +21,11 @@ import { useNavigate } from "react-router-dom";
 const PostManage = () => {
   const [postList, setPostList] = useState([]);
   const [filter, setFilter] = useState("");
-  const postPerPage = 10;
+  const categoryPerPage = 10;
   const [lastDoc, setLastDoc] = useState();
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const handleDeletePost = () => {};
-  const handleLoadMore = async () => {
-    const nextRef = query(
-      collection(db, "posts"),
-      orderBy("title"),
-      startAfter(lastDoc || 0),
-      limit(postPerPage)
-    );
-    onSnapshot(nextRef, (snapshot) => {
-      let results = [];
-      snapshot.forEach((item) => {
-        results.push({
-          id: item.id,
-          ...item.data(),
-        });
-      });
-      setPostList([...postList, ...results]);
-    });
-    const documentSnapshots = await getDocs(nextRef);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-    console.log(lastVisible);
-  };
   useEffect(() => {
     async function fetchData() {
       const colRef = collection(db, "posts");
@@ -60,7 +36,7 @@ const PostManage = () => {
             where("title", "<", filter + "\uf8ff"),
             orderBy("title")
           )
-        : query(colRef, orderBy("title"), limit(postPerPage));
+        : query(colRef, orderBy("title"), limit(categoryPerPage));
 
       const documentSnapshots = await getDocs(queryRef);
       const lastVisible =
@@ -119,8 +95,8 @@ const PostManage = () => {
             postList.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td className="whitespace-normal">
-                  <div className="flex gap-x-3 items-center ">
+                <td>
+                  <div className="flex gap-x-3 items-center">
                     <img
                       src={
                         item?.image ||
@@ -130,7 +106,7 @@ const PostManage = () => {
                       className="w-[150px] rounded-sm flex-shrink-0 object-cover"
                     />
                     <div className="flex-1">
-                      <h3 className="break-lines ">{item?.title}</h3>
+                      <h3>{item?.title}</h3>
                       <time className="meta text-[var(--text-meta)]">
                         {new Date(
                           item?.createdAt?.seconds * 1000
@@ -143,11 +119,7 @@ const PostManage = () => {
                 <td>{item?.user.username}</td>
                 <td>
                   <div className="flex items-center gap-x-3">
-                    <ActionView
-                      onClick={() => {
-                        navigate(`/${item.slug}`);
-                      }}
-                    ></ActionView>
+                    <ActionView></ActionView>
                     <ActionEdit
                       onClick={() => {
                         navigate(`/manage/update-category?id=${item.id}`);
@@ -164,19 +136,9 @@ const PostManage = () => {
             ))}
         </tbody>
       </Table>
-      {total > postList.length && (
-        <div className="mt-10 flex justify-center w-full items-center">
-          <button
-            className="px-8 bg-[var(--gray-600)] text-white font-semibold py-3 rounded-md"
-            onClick={handleLoadMore}
-          >
-            Load more
-          </button>
-        </div>
-      )}
-      {/* <div className="mt-10">
+      <div className="mt-10">
         <Pagination></Pagination>
-      </div> */}
+      </div>
     </div>
   );
 };

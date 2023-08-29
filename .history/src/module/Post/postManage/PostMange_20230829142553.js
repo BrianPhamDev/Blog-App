@@ -29,8 +29,8 @@ const PostManage = () => {
   const handleDeletePost = () => {};
   const handleLoadMore = async () => {
     const nextRef = query(
-      collection(db, "posts"),
-      orderBy("title"),
+      collection(db, "users"),
+      orderBy("username"),
       startAfter(lastDoc || 0),
       limit(postPerPage)
     );

@@ -27,7 +27,7 @@ const HomeTrending = () => {
       const results = [];
       querySnapshot.forEach((item) => {
         results.push({ id: item.id, ...item.data() });
-        // console.log(item.data());
+        console.log(item.data());
       });
       // console.log(results);
       setPosts(results);

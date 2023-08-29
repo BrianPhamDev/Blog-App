@@ -18,14 +18,11 @@ import {
   getDocs,
   addDoc,
   serverTimestamp,
-  doc,
-  getDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase/firebase-config";
 import { useAuth } from "../../../contexts/auth-context";
 import { toast } from "react-toastify";
 import Description from "../../../components/description/Description";
-import { func } from "prop-types";
 
 const PostAddNew = () => {
   const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
@@ -34,9 +31,8 @@ const PostAddNew = () => {
       title: "",
       slug: "",
       status: 2,
-      category: {},
+      categoryId: "",
       image: "",
-      user: {},
       featured: "",
       createdAt: "",
     },
@@ -45,6 +41,8 @@ const PostAddNew = () => {
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [userDetails, setUserDetails] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
   const {
     handleSelectImage,
     image,
@@ -54,29 +52,14 @@ const PostAddNew = () => {
     setProgress,
   } = useFirebaseImage(setValue, getValues);
 
-  const handleClickOption = async (item) => {
-    const docRef = doc(db, "categories", item.id);
-    const docData = await getDoc(docRef);
-    setValue("category", { id: docData.id, ...docData.data() });
-
-    // console.log(categoryDetails);
+  const handleClickOption = (item) => {
+    setValue("categoryId", item.id); //for form submit
     setSelectedCategory(item); //for Dropdown.Select
   };
 
   useEffect(() => {
     document.title = "Add new post";
   });
-
-  useEffect(() => {
-    async function fetchData() {
-      if (!userInfo.uid) return;
-      const docRef = doc(db, "users", userInfo.uid);
-      const docData = await getDoc(docRef);
-      setValue("user", { id: docData.id, ...docData.data() });
-      console.log(docData.data().fullName);
-    }
-    fetchData();
-  }, [userInfo.uid, setValue]);
 
   useEffect(() => {
     const getData = async () => {
@@ -108,7 +91,6 @@ const PostAddNew = () => {
       const cloneValues = { ...values };
       cloneValues.slug = slugify(values.slug || values.title, { lower: true });
       cloneValues.status = Number(cloneValues.status);
-      console.log(cloneValues);
       const colRef = collection(db, "posts");
       await addDoc(colRef, {
         ...cloneValues,
@@ -122,11 +104,10 @@ const PostAddNew = () => {
         title: "",
         slug: "",
         status: 2,
-        category: {},
+        categoryId: "",
         image: "",
         featured: "",
         description: "",
-        user: {},
         createdAt: "",
       });
       setSelectedCategory("");

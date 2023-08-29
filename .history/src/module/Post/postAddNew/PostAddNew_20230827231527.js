@@ -36,7 +36,6 @@ const PostAddNew = () => {
       status: 2,
       category: {},
       image: "",
-      user: {},
       featured: "",
       createdAt: "",
     },
@@ -76,7 +75,7 @@ const PostAddNew = () => {
       console.log(docData.data().fullName);
     }
     fetchData();
-  }, [userInfo.uid, setValue]);
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -109,31 +108,30 @@ const PostAddNew = () => {
       cloneValues.slug = slugify(values.slug || values.title, { lower: true });
       cloneValues.status = Number(cloneValues.status);
       console.log(cloneValues);
-      const colRef = collection(db, "posts");
-      await addDoc(colRef, {
-        ...cloneValues,
-        image,
-        userId: userInfo.uid,
-        createdAt: serverTimestamp(),
-      });
-      toast.success("Create new post successfully");
-      console.log(cloneValues);
-      reset({
-        title: "",
-        slug: "",
-        status: 2,
-        category: {},
-        image: "",
-        featured: "",
-        description: "",
-        user: {},
-        createdAt: "",
-      });
-      setSelectedCategory("");
-      setImage("");
-      setProgress(0);
-    } catch (error) {
-      setLoading(false);
+      //   const colRef = collection(db, "posts");
+      //   await addDoc(colRef, {
+      //     ...cloneValues,
+      //     image,
+      //     userId: userInfo.uid,
+      //     createdAt: serverTimestamp(),
+      //   });
+      //   toast.success("Create new post successfully");
+      //   console.log(cloneValues);
+      //   reset({
+      //     title: "",
+      //     slug: "",
+      //     status: 2,
+      //     category: {},
+      //     image: "",
+      //     featured: "",
+      //     description: "",
+      //     createdAt: "",
+      //   });
+      //   setSelectedCategory("");
+      //   setImage("");
+      //   setProgress(0);
+      // } catch (error) {
+      //   setLoading(false);
     } finally {
       setLoading(false);
     }

@@ -25,7 +25,6 @@ import { db } from "../../../firebase/firebase-config";
 import { useAuth } from "../../../contexts/auth-context";
 import { toast } from "react-toastify";
 import Description from "../../../components/description/Description";
-import { func } from "prop-types";
 
 const PostAddNew = () => {
   const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
@@ -36,7 +35,6 @@ const PostAddNew = () => {
       status: 2,
       category: {},
       image: "",
-      user: {},
       featured: "",
       createdAt: "",
     },
@@ -45,6 +43,8 @@ const PostAddNew = () => {
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [userDetails, setUserDetails] = useState({});
+  const [categoryDetails, setCategoryDetails] = useState({});
   const {
     handleSelectImage,
     image,
@@ -67,16 +67,12 @@ const PostAddNew = () => {
     document.title = "Add new post";
   });
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!userInfo.uid) return;
-      const docRef = doc(db, "users", userInfo.uid);
-      const docData = await getDoc(docRef);
-      setValue("user", { id: docData.id, ...docData.data() });
-      console.log(docData.data().fullName);
-    }
-    fetchData();
-  }, [userInfo.uid, setValue]);
+  useEffect(()=> {
+    console.log(userInfo.uid);
+    const docRef = doc(db, "users", userInfo.uid);
+    const docData = await getDoc(docRef);
+    setValue("category", { id: docData.id, ...docData.data() });
+  })
 
   useEffect(() => {
     const getData = async () => {
@@ -109,31 +105,30 @@ const PostAddNew = () => {
       cloneValues.slug = slugify(values.slug || values.title, { lower: true });
       cloneValues.status = Number(cloneValues.status);
       console.log(cloneValues);
-      const colRef = collection(db, "posts");
-      await addDoc(colRef, {
-        ...cloneValues,
-        image,
-        userId: userInfo.uid,
-        createdAt: serverTimestamp(),
-      });
-      toast.success("Create new post successfully");
-      console.log(cloneValues);
-      reset({
-        title: "",
-        slug: "",
-        status: 2,
-        category: {},
-        image: "",
-        featured: "",
-        description: "",
-        user: {},
-        createdAt: "",
-      });
-      setSelectedCategory("");
-      setImage("");
-      setProgress(0);
-    } catch (error) {
-      setLoading(false);
+      //   const colRef = collection(db, "posts");
+      //   await addDoc(colRef, {
+      //     ...cloneValues,
+      //     image,
+      //     userId: userInfo.uid,
+      //     createdAt: serverTimestamp(),
+      //   });
+      //   toast.success("Create new post successfully");
+      //   console.log(cloneValues);
+      //   reset({
+      //     title: "",
+      //     slug: "",
+      //     status: 2,
+      //     category: {},
+      //     image: "",
+      //     featured: "",
+      //     description: "",
+      //     createdAt: "",
+      //   });
+      //   setSelectedCategory("");
+      //   setImage("");
+      //   setProgress(0);
+      // } catch (error) {
+      //   setLoading(false);
     } finally {
       setLoading(false);
     }
