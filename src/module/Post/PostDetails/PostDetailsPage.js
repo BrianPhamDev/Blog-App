@@ -1,33 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../components/layout/Layout";
 import PostMeta from "../postMeta/PostMeta";
 import PostImage from "../postImage/PostImage";
 import "./postDetailsPage.scss";
 import PostBodyCopy from "../PostBodyCopy/PostBodyCopy";
 import PostSideStories from "../PostSideStories/PostSideStories";
+import NotFoundPage from "../../../pages/notFoundPage/NotFoundPage";
+import parse from "html-react-parser";
+import { useParams } from "react-router-dom";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../../firebase/firebase-config";
 const PostDetailsPage = () => {
+  const { slug } = useParams();
+  const [postInfo, setPostInfo] = useState({});
+  useEffect(() => {
+    async function fetchData() {
+      if (!slug) return;
+      const colRef = query(collection(db, "posts"), where("slug", "==", slug));
+      onSnapshot(colRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.data() && setPostInfo(doc.data());
+        });
+      });
+    }
+    fetchData();
+  }, [slug]);
+  console.log(postInfo);
+  if (!slug) return <NotFoundPage></NotFoundPage>;
+  if (!postInfo.title) return null;
   return (
     <div className="container">
       <Layout>
         <main className="post-wrapper mt-[32px]">
           <div className="post-grid">
             <div className="post-heading mb-8 px-4">
-              <h1 className="post-title heading-1 ">
-                BrandOpus Gives Jell-O Its First Redesign In A Decade
-              </h1>
-              <PostMeta></PostMeta>
+              <h1 className="post-title heading-1 ">{postInfo.title}</h1>
+              <PostMeta category={postInfo.category.name}></PostMeta>
             </div>
           </div>
           <div className="post-grid gap-[32px]">
             <div className="post-content">
               <div className="post-thumb">
                 <PostImage
-                  url="https://ucarecdn.com/77d9ec0f-0866-47ff-b7d7-2278c26c7ae5/-/crop/1920x1079/0,0/-/preview/-/quality/lighter/-/format/auto/-/scale_crop/1920x1080/center/"
+                  url={postInfo.image}
                   alt="Jell-O New Branding"
                   className=" overflow-hidden rounded-lg mb-16"
                 ></PostImage>
               </div>
               <div className="post-main-content">
+                <div className="">{parse(postInfo.content) || ""}</div>
                 <PostBodyCopy>
                   Kraft Heinz’s Jell-O is one of the most popular brands of
                   dessert gelatin and pudding, sold in easy-to-make powders and

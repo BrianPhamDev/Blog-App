@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "reset";
+@import "content";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @layer base {
@@ -159,5 +160,27 @@
     word-wrap: break-word;
     max-width: 300px;
     line-height: 1.5;
+  }
+  .post-main-content {
+    font-family: "Inter";
+    h1 {
+      @extend .heading-1;
+    }
+    h2 {
+      @extend .heading-2;
+    }
+    h3 {
+      @extend .heading-3;
+    }
+    h4 {
+      @extend .heading-4;
+    }
+    p {
+      @extend .bodycopy;
+    }
+  }
+
+  .quill * {
+    @extend .post-main-content;
   }
 }

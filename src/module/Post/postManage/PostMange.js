@@ -4,6 +4,8 @@ import Table from "../../../components/table/Table";
 import DashboardHeading from "../../dashboard/DashboardHeading";
 import {
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   onSnapshot,
@@ -18,6 +20,10 @@ import ActionView from "../../../components/action/ActionView";
 import ActionEdit from "../../../components/action/ActionEdit";
 import ActionDelete from "../../../components/action/ActionDelete";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { postStatus } from "../../../utils/constants";
+import { LabelStatus } from "../../../components/label";
+import { debounce } from "lodash";
 
 const PostManage = () => {
   const [postList, setPostList] = useState([]);
@@ -26,7 +32,40 @@ const PostManage = () => {
   const [lastDoc, setLastDoc] = useState();
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
-  const handleDeletePost = () => {};
+  const renderPostStatus = (status) => {
+    switch (status) {
+      case postStatus.APPROVED:
+        return <LabelStatus type="success"></LabelStatus>;
+      case postStatus.PENDING:
+        return <LabelStatus type="warning"></LabelStatus>;
+      case postStatus.REJECTED:
+        return <LabelStatus type="danger"></LabelStatus>;
+      default:
+        break;
+    }
+  };
+
+  const handleDeletePost = (postId) => {
+    const docRef = doc(db, "posts", postId);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteDoc(docRef);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+  const handleInputChange = debounce((e) => {
+    setFilter(e.target.value);
+  }, 350);
   const handleLoadMore = async () => {
     const nextRef = query(
       collection(db, "posts"),
@@ -101,6 +140,7 @@ const PostManage = () => {
             type="text"
             className="w-full p-4 rounded-lg border border-solid border-gray-300"
             placeholder="Search post..."
+            onChange={handleInputChange}
           />
         </div>
       </div>
@@ -111,6 +151,7 @@ const PostManage = () => {
             <th>Post</th>
             <th>Category</th>
             <th>Author</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -118,9 +159,9 @@ const PostManage = () => {
           {postList.length > 0 &&
             postList.map((item) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
-                <td className="whitespace-normal">
-                  <div className="flex gap-x-3 items-center ">
+                <td>{item.id?.slice(0, 5) + "..."}</td>
+                <td className="">
+                  <div className="flex gap-x-3 items-center">
                     <img
                       src={
                         item?.image ||
@@ -141,6 +182,7 @@ const PostManage = () => {
                 </td>
                 <td>{item?.category.name}</td>
                 <td>{item?.user.username}</td>
+                <td>{renderPostStatus(item.user.status)}</td>
                 <td>
                   <div className="flex items-center gap-x-3">
                     <ActionView
@@ -150,7 +192,7 @@ const PostManage = () => {
                     ></ActionView>
                     <ActionEdit
                       onClick={() => {
-                        navigate(`/manage/update-category?id=${item.id}`);
+                        navigate(`/manage/update-post?id=${item.id}`);
                       }}
                     ></ActionEdit>
                     <ActionDelete

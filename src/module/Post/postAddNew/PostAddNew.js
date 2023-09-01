@@ -25,7 +25,6 @@ import { db } from "../../../firebase/firebase-config";
 import { useAuth } from "../../../contexts/auth-context";
 import { toast } from "react-toastify";
 import Description from "../../../components/description/Description";
-import { func } from "prop-types";
 
 const PostAddNew = () => {
   const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({

@@ -49,14 +49,8 @@ const UserUpdate = () => {
       avatar: "",
     });
   };
-  const {
-    handleSelectImage,
-    image,
-    progress,
-    setImage,
-    handleDeleteImage,
-    handeResetUpload,
-  } = useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
+  const { handleSelectImage, image, progress, setImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues, imageName, deleteAvatar);
   useEffect(() => {
     setImage(imageUrl);
   }, [setImage, imageUrl]);
