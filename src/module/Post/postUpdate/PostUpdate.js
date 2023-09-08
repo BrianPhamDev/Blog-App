@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "../../../components/button";
 import { Field, FieldCheckboxes } from "../../../components/field";
 import { Input } from "../../../components/input";
@@ -11,7 +11,9 @@ import { postStatus } from "../../../utils/constants";
 import ImageUpload from "../../../components/image/ImageUpload";
 import useFirebaseImage from "../../../hooks/useFirebaseImage";
 import Toggle from "../../../components/toggle/Toggle";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
+import ImageUploader from "quill-image-uploader";
+import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 import {
   collection,
@@ -28,6 +30,10 @@ import { toast } from "react-toastify";
 import Description from "../../../components/description/Description";
 import DashboardHeading from "../../dashboard/DashboardHeading";
 import { useSearchParams } from "react-router-dom";
+import { imgbbAPI } from "../../../config/apiConfig";
+if (!Quill.imports["modules/ImageUploader"]) {
+  Quill.register("modules/ImageUploader", ImageUploader);
+}
 const PostUpdate = () => {
   const {
     control,
@@ -116,7 +122,6 @@ const PostUpdate = () => {
 
   const updatePostHandler = async (values) => {
     if (!isValid) return;
-
     setLoading(true);
     try {
       values.slug = slugify(values.slug || values.title, { lower: true });
@@ -129,27 +134,40 @@ const PostUpdate = () => {
         image,
       });
       toast.success("Update post successfully");
-      //     console.log(cloneValues);
-      //     reset({
-      //       title: "",
-      //       slug: "",
-      //       status: 2,
-      //       category: {},
-      //       image: "",
-      //       featured: "",
-      //       description: "",
-      //       user: {},
-      //       createdAt: "",
-      //     });
-      //     setSelectedCategory("");
-      //     setImage("");
-      //     setProgress(0);
     } catch (error) {
       setLoading(false);
     } finally {
       setLoading(false);
     }
   };
+  const modules = useMemo(
+    () => ({
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote"],
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ["link", "image"],
+      ],
+      ImageUploader: {
+        upload: async (file) => {
+          const bodyFormData = new FormData();
+          bodyFormData.append("image", file);
+          const response = await axios({
+            method: "post",
+            url: imgbbAPI,
+            data: bodyFormData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          return response.data.data.url;
+        },
+      },
+    }),
+    []
+  );
   if (!postId) return;
   return (
     <div>
@@ -198,7 +216,12 @@ const PostUpdate = () => {
           <Field>
             <Label>Content</Label>
             <div className="w-full">
-              <ReactQuill theme="snow" value={content} onChange={setContent} />
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={setContent}
+                modules={modules}
+              />
             </div>
           </Field>
         </div>

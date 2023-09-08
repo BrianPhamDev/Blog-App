@@ -40,7 +40,7 @@ const PostDetailsPage = () => {
       <Layout>
         <main className="post-wrapper mt-[32px]">
           <div className="post-grid">
-            <div className="post-heading mb-8 px-4">
+            <div className="post-heading mb-8">
               <h1 className="post-title heading-1 ">{postInfo.title}</h1>
               <PostMeta category={postInfo.category.name}></PostMeta>
             </div>
@@ -75,7 +75,7 @@ const PostDetailsPage = () => {
                 <PostImage
                   url="https://ucarecdn.com/4974387d-8de3-4659-b579-f501d83cacb8/"
                   alt="Jell-O New Branding"
-                  className="overflow-hidden rounded-lg my-16"
+                  className=""
                 ></PostImage>
                 <PostBodyCopy>
                   BrandOpus gives Jell-O a new logo with a bold, playful
@@ -92,7 +92,7 @@ const PostDetailsPage = () => {
                 <PostImage
                   url="https://ucarecdn.com/6d4b1a92-46a6-4ec5-be13-944ae5fae90d/"
                   alt="Jell-O New Branding"
-                  className=" overflow-hidden rounded-lg my-16"
+                  className=""
                 ></PostImage>
                 <PostBodyCopy>
                   “With the Jell-O renovation, we’re bringing back the jiggly
@@ -110,7 +110,7 @@ const PostDetailsPage = () => {
                 <PostImage
                   url="https://ucarecdn.com/e7891181-29a0-42f5-989b-36aead310ac8/"
                   alt="Jell-O New Branding"
-                  className=" overflow-hidden rounded-lg my-16"
+                  className=""
                 ></PostImage>
                 <PostImage
                   url="https://ucarecdn.com/a53098a0-f8d0-4a3e-bc66-2b36d3594101/"
@@ -125,7 +125,7 @@ const PostDetailsPage = () => {
                 <PostImage
                   url="https://ucarecdn.com/89e643e9-f413-4150-afc2-a6ecb3d967d1/"
                   alt="Jell-O New Branding"
-                  className=" overflow-hidden rounded-lg my-16"
+                  className=""
                 ></PostImage>
               </div>
             </div>

@@ -46,30 +46,24 @@ const Header = () => {
           />
         </div>
         <div className="header-main">
-          <div className="menu">
-            {menuLinks.map((item) => (
-              <li className="menu-item" key={item.title}>
-                <NavLink to={item.url} className="menu-link">
-                  {item.title}
-                </NavLink>
-              </li>
-            ))}
-          </div>
           {!userInfo ? (
             <Button type="button" to="/sign-in">
               Sign In
             </Button>
           ) : (
-            <div className="flex flex-row items-center justify-center">
-              <div className="font-semibold">Hello, &nbsp;</div>
-              <div className="text-gradient font-semibold">
-                {getLastName(userInfo?.displayName)}
+            <div className="menu flex flex-row items-center justify-center">
+              <NavLink to="/manage/posts">Dashboard</NavLink>
+              <div className="flex flex-row items-center justify-center">
+                <div className="font-semibold">Hello, &nbsp;</div>
+                <div className="text-gradient font-semibold">
+                  {getLastName(userInfo?.displayName)}
+                </div>
               </div>
+              <button onClick={handleSignOut}>Sign Out</button>
             </div>
           )}
         </div>
       </div>
-      <button onClick={handleSignOut}>Sign Out</button>
     </>
   );
 };
