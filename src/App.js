@@ -30,7 +30,6 @@ function App() {
           <Route path="*" element={<NotFoundPage />}></Route>
           <Route path="/:slug" element={<PostDetailsPage />}></Route>
           <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<DashboardPage />}></Route>
             <Route path="/profile" element={<UserProfile />}></Route>
             <Route path="/manage/posts" element={<PostMange />}></Route>
             <Route path="/manage/update-post" element={<PostUpdate />}></Route>

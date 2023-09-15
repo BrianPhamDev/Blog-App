@@ -32,7 +32,6 @@ const PostDetailsPage = () => {
     }
     fetchData();
   }, [slug]);
-  console.log(postInfo);
   if (!slug) return <NotFoundPage></NotFoundPage>;
   if (!postInfo.title) return null;
   return (

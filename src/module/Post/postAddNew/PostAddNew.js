@@ -72,7 +72,6 @@ const PostAddNew = () => {
       const docRef = doc(db, "users", userInfo.uid);
       const docData = await getDoc(docRef);
       setValue("user", { id: docData.id, ...docData.data() });
-      console.log(docData.data().fullName);
     }
     fetchData();
   }, [userInfo.uid, setValue]);
@@ -116,7 +115,6 @@ const PostAddNew = () => {
         createdAt: serverTimestamp(),
       });
       toast.success("Create new post successfully");
-      console.log(cloneValues);
       reset({
         title: "",
         slug: "",
