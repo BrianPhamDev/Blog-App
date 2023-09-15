@@ -1,9 +1,0 @@
-.trendlr {
-  &-wrapper {
-    @apply grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-  &-image {
-    grid-column-end: span(2);
-  }
-}
