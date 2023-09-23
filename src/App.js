@@ -5,7 +5,6 @@ import SignInPage from "./pages/signInPage/SignInPage";
 import HomePage from "./pages/homePage/HomePage";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 import PostDetailsPage from "./module/Post/PostDetails/PostDetailsPage";
-import DashboardPage from "./pages/dashboardPage.js/DashboardPage";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
 import PostMange from "./module/Post/postManage/PostMange";
 import PostAddNew from "./module/Post/postAddNew/PostAddNew";
@@ -17,6 +16,7 @@ import UserProfile from "./module/user/UserProfile";
 import CategoryUpdate from "./module/category/CategoryUpdate";
 import UserUpdate from "./module/user/UserUpdate";
 import PostUpdate from "./module/Post/postUpdate/PostUpdate";
+import BannerPage from "./pages/bannerPage/BannerPage";
 
 function App() {
   return (
@@ -29,6 +29,10 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />}></Route>
           <Route path="/:slug" element={<PostDetailsPage />}></Route>
+          <Route
+            path="/banner-page"
+            element={<BannerPage></BannerPage>}
+          ></Route>
           <Route element={<DashboardLayout />}>
             <Route path="/profile" element={<UserProfile />}></Route>
             <Route path="/manage/posts" element={<PostMange />}></Route>

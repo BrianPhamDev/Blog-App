@@ -18,7 +18,7 @@ const RecentNews = () => {
       colRef,
       where("status", "==", 1),
       where("featured", "==", false),
-      limit(8)
+      limit(6)
     );
 
     onSnapshot(queries, (querySnapshot) => {
@@ -30,11 +30,12 @@ const RecentNews = () => {
     });
   }, []);
   if (posts.length <= 0) return null;
-  console.log(posts);
   return (
     <section className="recent">
       {posts.length > 0 &&
-        posts.map((item) => <RecentItem data={item}></RecentItem>)}
+        posts.map((item) => (
+          <RecentItem key={item.id} data={item}></RecentItem>
+        ))}
       <RecentItem></RecentItem>
     </section>
   );

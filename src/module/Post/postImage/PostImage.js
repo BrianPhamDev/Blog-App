@@ -10,7 +10,7 @@ const PostImage = ({
 }) => {
   if (to)
     return (
-      <Link to={`/${to}`} className={`${classLink} block w-full h-full`}>
+      <Link to={`/${to}`} className={`${classLink}`}>
         <img
           src={url}
           alt={alt}

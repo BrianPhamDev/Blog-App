@@ -2,12 +2,10 @@ import React from "react";
 import "./recentItem.scss";
 import { Dot } from "../../icons";
 const RecentItem = ({ data }) => {
-  // if (!data.id) return null;
   const date = data?.createdAt?.seconds
     ? new Date(data?.createdAt?.seconds * 1000)
     : new Date();
   const formatDate = new Date(date).toLocaleDateString("vi-VI");
-  console.log(data);
   return (
     <article className="recent-wrapper">
       <a href="/" className="recent-thumb">

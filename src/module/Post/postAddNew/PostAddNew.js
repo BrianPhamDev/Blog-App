@@ -36,7 +36,7 @@ const PostAddNew = () => {
       category: {},
       image: "",
       user: {},
-      featured: "",
+      featured: false,
       createdAt: "",
     },
   });
@@ -121,7 +121,7 @@ const PostAddNew = () => {
         status: 2,
         category: {},
         image: "",
-        featured: "",
+        featured: false,
         description: "",
         user: {},
         createdAt: "",

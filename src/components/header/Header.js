@@ -29,7 +29,7 @@ const Header = () => {
         <NavLink to="/">
           <img src="./Logo.svg" alt="Newsiten" className="header-logo" />
         </NavLink>
-        <div
+        {/* <div
           className={`search ${
             inputFocused ? "bg-white" : "bg-backgroundInactive"
           }`}
@@ -44,7 +44,7 @@ const Header = () => {
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
           />
-        </div>
+        </div> */}
         <div className="header-main">
           {!userInfo ? (
             <Button type="button" to="/sign-in">
